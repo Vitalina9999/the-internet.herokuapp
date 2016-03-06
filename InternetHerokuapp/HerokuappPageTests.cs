@@ -105,7 +105,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void ChallengingDom() //??
+        public void ChallengingDom()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -154,7 +154,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void Checkboxes() // ?
+        public void Checkboxes()
         {
             //Open the browser
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -175,7 +175,7 @@ namespace InternetHerokuapp
                
                 //Close the browser
             }
-        }
+        }   
 
         [TestMethod]
         public void ContextMenu() // only in FF
@@ -209,7 +209,7 @@ namespace InternetHerokuapp
                 //6.Assert that the text from the alert is what we expect
 
             }
-        }
+        }   //??
 
         [TestMethod]
         public void DisappearingElements()
@@ -236,10 +236,10 @@ namespace InternetHerokuapp
                 }
 
             }
-        }
+        }   //??
 
         [TestMethod]
-        public void DragAndDrop() //??
+        public void DragAndDrop()
         {
             //http://comments.gmane.org/gmane.comp.web.selenium.user/33020   
             //http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/ActionBuilder.html
@@ -262,7 +262,7 @@ namespace InternetHerokuapp
                 actions.Perform();
 
             }
-        }
+        }     //??
 
         [TestMethod]
         public void DropdownList()
@@ -277,7 +277,7 @@ namespace InternetHerokuapp
                 selectElement.SelectByText("Option 2");
 
             }
-        }
+        }   //??
 
         [TestMethod]
 
