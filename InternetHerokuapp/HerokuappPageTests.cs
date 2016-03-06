@@ -285,6 +285,8 @@ namespace InternetHerokuapp
         [TestMethod]
         public void Tes()
         {
+
+            //Hello
             RestClient restClient = new RestClient("http://vk.com/");
 
             RestRequest restRequest = new RestRequest();
