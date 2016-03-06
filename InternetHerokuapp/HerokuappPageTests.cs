@@ -71,9 +71,9 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void BrokenImages() 
+        public void BrokenImages()
         {
-           
+
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/";
@@ -90,7 +90,7 @@ namespace InternetHerokuapp
                 foreach (IWebElement image in emages)
                 {
                     string src = image.GetAttribute("src");
-                    
+
                     RestClient restClient = new RestClient(src);
 
                     RestRequest restRequest = new RestRequest();
@@ -156,27 +156,24 @@ namespace InternetHerokuapp
         [TestMethod]
         public void Checkboxes() // ?
         {
+            //Open the browser
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
+                //Visit the page
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/checkboxes";
 
-                // IWebElement checkboxesId = webDriverHelper.GetDriver().FindElement(By.Id("checkboxes"));
+                //Find all of the checkboxes on the page
+                IList<IWebElement> checkboxesInputs = webDriverHelper.GetDriver().FindElements(By.CssSelector("input[type=checkbox"));
 
-                IList<IWebElement> checkboxesInput = webDriverHelper.GetDriver().FindElements(By.CssSelector("input[type=checkbox"));
-
-
-                foreach (IWebElement checkbox in checkboxesInput)
-                {
-                    bool input = checkboxesInput.Contains(checkbox);
-                    string isChecked = checkbox.GetAttribute("Checked");
-
-                    if (isChecked != null)
-                    {
-                        string checkbox2 = "checkbox 2";
-                    }
-
-                }
-
+                Assert.IsNotNull(checkboxesInputs);
+                Assert.AreEqual(2, checkboxesInputs.Count);
+                Assert.IsFalse(checkboxesInputs[0].Selected);
+              
+                bool isLastChecked = checkboxesInputs.Last().Selected;
+                Assert.IsTrue(isLastChecked);
+                //Assert.IsTrue(checkboxesInputs[1].Selected);   == dublicate, for example
+               
+                //Close the browser
             }
         }
 
@@ -283,18 +280,6 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void Tes()
-        {
-
-            //Hello
-            RestClient restClient = new RestClient("http://vk.com/");
-
-            RestRequest restRequest = new RestRequest();
-
-            IRestResponse response = restClient.Execute(restRequest);
-            HttpStatusCode statusCode = response.StatusCode;
-            int numericStatusCode = (int)statusCode;
-        }
 
         #region
         private void dataGridView1_MouseClick(object sender, MouseEventArgs e)

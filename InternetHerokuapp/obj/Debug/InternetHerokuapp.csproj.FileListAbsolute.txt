@@ -14,3 +14,19 @@ C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\Intern
 C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\RestSharp.dll
 C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\RestSharp.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\InternetHerokuapp.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\InternetHerokuapp.pdb
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\RestSharp.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\System.Web.Http.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\WebDriver.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\WebDriver.Support.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\Newtonsoft.Json.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\RestSharp.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\System.Web.Http.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\WebDriver.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\WebDriver.Support.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.xml
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.csprojResolveAssemblyReference.cache
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.dll
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.pdb
