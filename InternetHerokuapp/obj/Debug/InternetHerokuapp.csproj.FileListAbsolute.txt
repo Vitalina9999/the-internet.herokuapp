@@ -1,0 +1,16 @@
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\obj\Debug\InternetHerokuapp.csprojResolveAssemblyReference.cache
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\InternetHerokuapp.dll
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\InternetHerokuapp.pdb
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\WebDriver.dll
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\WebDriver.Support.dll
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\WebDriver.xml
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\WebDriver.Support.xml
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\obj\Debug\InternetHerokuapp.dll
+c:\users\vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\obj\Debug\InternetHerokuapp.pdb
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\System.Web.Http.dll
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\System.Web.Http.xml
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\RestSharp.dll
+C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug\RestSharp.xml
