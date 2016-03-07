@@ -279,7 +279,10 @@ namespace InternetHerokuapp
 
                 IWebElement source = webDriverHelper.GetDriver().FindElement(By.Id("column-a"));
                 IWebElement target = webDriverHelper.GetDriver().FindElement(By.Id("column-b"));
+                
                 actions.DragAndDrop(source, target);
+                actions.Perform();
+                
                 actions.Build();
                 actions.Perform();
 
@@ -304,10 +307,55 @@ namespace InternetHerokuapp
                 bool isOption2Displayed = selectElement.SelectedOption.Displayed;
                 Assert.IsTrue(isOption2Displayed, "Option 2");
             }
-        }   
+        }
 
         [TestMethod]
+        public void DynamicContent()  
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/dynamic_content";
+                
+            }
+        }
 
+        [TestMethod]
+        public void DynamicControls()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+               
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/dynamic_controls";
+
+                IWebElement checkboxId = webDriver.FindElement(By.TagName("input"));
+                checkboxId.Click();
+
+                IWebElement btnRemove = webDriver.FindElement(By.Id("btn"));
+                btnRemove.Click();
+
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("message")));
+
+                IWebElement messageItsGone = webDriver.FindElement(By.Id("message"));
+                string messageTextActual1 = messageItsGone.Text;
+                string messageTextExpected1 = "It's gone!";
+                Assert.AreEqual(messageTextExpected1, messageTextActual1);
+
+                IWebElement btnAdd = webDriver.FindElement(By.Id("btn"));
+                btnAdd.Click();
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("message")));
+               
+
+                IWebElement messageItsBack = webDriver.FindElement(By.Id("message"));
+                string messageTextActual2 = messageItsBack.Text;
+                string messageTextExpected2 = "It's back!";
+                Assert.AreEqual(messageTextExpected2, messageTextActual2);
+            }
+        }
+        
         #region
         private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
         {
