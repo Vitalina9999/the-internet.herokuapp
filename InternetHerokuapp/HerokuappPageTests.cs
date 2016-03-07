@@ -309,7 +309,7 @@ namespace InternetHerokuapp
             }
         }
 
-        [TestMethod]
+        [TestMethod]   //??
         public void DynamicContent()  
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -353,6 +353,31 @@ namespace InternetHerokuapp
                 string messageTextActual2 = messageItsBack.Text;
                 string messageTextExpected2 = "It's back!";
                 Assert.AreEqual(messageTextExpected2, messageTextActual2);
+            }
+        }
+
+        [TestMethod]
+        public void DynamicLoadingElementOnPageThatIsHidden()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/dynamic_loading/1";
+
+                IWebElement startId = webDriver.FindElement(By.Id("start"));
+                startId.Click();
+
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("finish")));
+
+                IWebElement messageId = webDriver.FindElement(By.Id("finish"));
+                IWebElement messageHelloWorld = messageId.FindElement(By.CssSelector("h4"));
+                
+                string messageTextActual = messageHelloWorld.Text;
+                string messageTextExpected = "Hello World!";
+                Assert.AreEqual(messageTextExpected, messageTextActual);
+                
             }
         }
         
