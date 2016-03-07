@@ -212,7 +212,7 @@ namespace InternetHerokuapp
         }   //??
 
         [TestMethod]
-        public void DisappearingElements()   //&&&&&&&&&&&&&
+        public void DisappearingElements()   
         {
             //http://stackoverflow.com/questions/27639550/how-to-test-whether-an-element-is-displayed-on-the-page
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -236,7 +236,7 @@ namespace InternetHerokuapp
 
                         IWebElement h1Text = webDriver.FindElement(By.CssSelector("h1"));
                         string textActual = h1Text.Text;
-                        string textExpected = "NotFound";
+                        string textExpected = "Not Found";
                         Assert.AreEqual(textExpected, textActual);
                     }
 
@@ -248,7 +248,7 @@ namespace InternetHerokuapp
                 }
 
             }
-        }   //??
+        }   
 
         [TestMethod]
         public void DragAndDrop()
