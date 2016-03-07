@@ -168,14 +168,14 @@ namespace InternetHerokuapp
                 Assert.IsNotNull(checkboxesInputs);
                 Assert.AreEqual(2, checkboxesInputs.Count);
                 Assert.IsFalse(checkboxesInputs[0].Selected);
-              
+
                 bool isLastChecked = checkboxesInputs.Last().Selected;
                 Assert.IsTrue(isLastChecked);
                 //Assert.IsTrue(checkboxesInputs[1].Selected);   == dublicate, for example
-               
+
                 //Close the browser
             }
-        }   
+        }
 
         [TestMethod]
         public void ContextMenu() // only in FF
@@ -212,27 +212,39 @@ namespace InternetHerokuapp
         }   //??
 
         [TestMethod]
-        public void DisappearingElements()
+        public void DisappearingElements()   //&&&&&&&&&&&&&
         {
             //http://stackoverflow.com/questions/27639550/how-to-test-whether-an-element-is-displayed-on-the-page
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-                webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/disappearing_elements";
+                IWebDriver webDriver = webDriverHelper.GetDriver();
 
-                IWebElement galleryLink = webDriverHelper.GetDriver().FindElement(By.XPath("//*[@href='/gallery/']"));
+                webDriver.Url = "http://the-internet.herokuapp.com/disappearing_elements";
 
-                if (galleryLink.Displayed)
+                ReadOnlyCollection<IWebElement> pageLinks = webDriver.FindElements(By.CssSelector("li"));
+
+                foreach (IWebElement galleryLink in pageLinks)
                 {
+                    string hrefText = galleryLink.Text;
+                    string galleryText = "Gallery";
 
-                    galleryLink.Click();
 
-                    IWebElement h1Text = webDriverHelper.GetDriver().FindElement(By.CssSelector("h1"));
-                    string textNotFound = h1Text.Text;
-                }
+                    if (galleryText.Contains(hrefText))
+                    {
 
-                else
-                {
-                    string elementNotAppears = "element NOT appears";
+                        galleryLink.Click();
+
+                        IWebElement h1Text = webDriver.FindElement(By.CssSelector("h1"));
+                        string textActual = h1Text.Text;
+                        string textExpected = "NotFound";
+                        Assert.AreEqual(textExpected, textActual);
+                    }
+
+                    else
+                    {
+                        string elementNotAppears = "element NOT appears";
+                    }
+
                 }
 
             }
