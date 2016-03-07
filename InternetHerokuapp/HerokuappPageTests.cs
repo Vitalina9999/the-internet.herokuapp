@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI.WebControls;
@@ -19,6 +20,7 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using RestSharp;
 using DataGrid = System.Windows.Forms.DataGrid;
+using Keys = System.Windows.Forms.Keys;
 
 namespace InternetHerokuapp
 {
@@ -181,6 +183,7 @@ namespace InternetHerokuapp
         public void ContextMenu() // only in FF
         {
             //http://elementalselenium.com/tips/63-right-click
+            //http://stackoverflow.com/questions/11428026/select-an-option-from-the-right-click-menu-in-selenium-webdriver-java
 
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -189,30 +192,37 @@ namespace InternetHerokuapp
                 driver.Url = "http://the-internet.herokuapp.com/context_menu";
 
                 //2.Find and right-click the area which will render a custom context menu
-                IWebElement menuArea = driver.FindElement(By.Id("hot-spot"));
+                IWebElement menu = driver.FindElement(By.Id("hot-spot"));
 
-                //3.Select the context menu option with keyboard keys
-                Actions actions = new Actions(webDriverHelper.GetDriver());
-                actions.ContextClick(menuArea);
+                //3.Select the context menu option with keyboard/mouse keys
+                Actions actions = new Actions(driver);
+                actions.ContextClick(menu);
+                actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
+                actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
+                actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
+                actions.SendKeys(OpenQA.Selenium.Keys.Enter);
+                actions.SendKeys(OpenQA.Selenium.Keys.Enter);
+                // actions.Build();
+                actions.Perform();
 
-                IAlert alert1 = driver.SwitchTo().Alert();
-
-                MouseButtons mouseButtons = new MouseButtons();
-
-                ContextMenu contextMenu = new ContextMenu();
+                // Unexpected modal dialog (text: You selected a context menu) The alert disappeared before it could be closed.
+               
 
                 //4.JavaScript alert appears
                 IAlert alert = driver.SwitchTo().Alert();
-                // alert.Text = "You selected a context menu";
 
                 //5.Grab the text of the JavaScript alert
+                string alertTextExpected = alert.Text;
+                string alertTextActual = "You selected a context menu";
+
                 //6.Assert that the text from the alert is what we expect
+                Assert.AreEqual(alertTextExpected, alertTextActual);
 
             }
         }   //??
 
         [TestMethod]
-        public void DisappearingElements()   
+        public void DisappearingElements()
         {
             //http://stackoverflow.com/questions/27639550/how-to-test-whether-an-element-is-displayed-on-the-page
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -248,7 +258,7 @@ namespace InternetHerokuapp
                 }
 
             }
-        }   
+        }
 
         [TestMethod]
         public void DragAndDrop()
