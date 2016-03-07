@@ -287,7 +287,7 @@ namespace InternetHerokuapp
         }     //??
 
         [TestMethod]
-        public void DropdownList()
+        public void DropdownList()     // Assert ?
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -295,11 +295,16 @@ namespace InternetHerokuapp
 
                 IWebElement dropdownId = webDriverHelper.GetDriver().FindElement(By.Id("dropdown"));
                 SelectElement selectElement = new SelectElement(dropdownId);
-                selectElement.SelectByText("Option 1");
-                selectElement.SelectByText("Option 2");
 
+                selectElement.SelectByText("Option 1");
+                bool isOption1Displayed = selectElement.SelectedOption.Displayed;
+                Assert.IsTrue(isOption1Displayed, "Option 1");
+                
+                selectElement.SelectByText("Option 2");
+                bool isOption2Displayed = selectElement.SelectedOption.Displayed;
+                Assert.IsTrue(isOption2Displayed, "Option 2");
             }
-        }   //??
+        }   
 
         [TestMethod]
 
