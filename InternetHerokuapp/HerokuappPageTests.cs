@@ -365,17 +365,22 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/dynamic_loading/1";
 
-                IWebElement startId = webDriver.FindElement(By.Id("start"));
-                startId.Click();
+                IWebElement btnStart = webDriver.FindElement(By.TagName("button"));
+                btnStart.Click();
 
-                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
                 webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("finish")));
 
                 IWebElement messageId = webDriver.FindElement(By.Id("finish"));
-                IWebElement messageHelloWorld = messageId.FindElement(By.CssSelector("h4"));
-                
+                IWebElement messageHelloWorld = messageId.FindElement(By.TagName("h4"));
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(20));
+                webDriverWait1.Until(ExpectedConditions.TextToBePresentInElement(messageHelloWorld, "Hello World!"));
+
                 string messageTextActual = messageHelloWorld.Text;
                 string messageTextExpected = "Hello World!";
+
+               
                 Assert.AreEqual(messageTextExpected, messageTextActual);
                 
             }
