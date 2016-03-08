@@ -385,6 +385,36 @@ namespace InternetHerokuapp
                 
             }
         }
+
+        [TestMethod]
+        public void DynamicLoadingElementOnPageThatIsRenderedAfterTheFact()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/dynamic_loading/2";
+
+                IWebElement btnStart = webDriver.FindElement(By.TagName("button"));
+                btnStart.Click();
+
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("finish")));
+
+                IWebElement messageId = webDriver.FindElement(By.Id("finish"));
+                //IWebElement messageHelloWorld = messageId.FindElement(By.TagName("h4"));
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(20));
+                webDriverWait1.Until(ExpectedConditions.TextToBePresentInElement(messageId, "Hello World!"));
+
+                string messageTextActual = messageId.Text;
+                string messageTextExpected = "Hello World!";
+
+
+                Assert.AreEqual(messageTextExpected, messageTextActual);
+
+            }
+        }
         
         #region
         private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
