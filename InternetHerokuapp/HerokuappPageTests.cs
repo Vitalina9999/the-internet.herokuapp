@@ -206,7 +206,7 @@ namespace InternetHerokuapp
                 actions.Perform();
 
                 // Unexpected modal dialog (text: You selected a context menu) The alert disappeared before it could be closed.
-               
+
 
                 //4.JavaScript alert appears
                 IAlert alert = driver.SwitchTo().Alert();
@@ -273,16 +273,14 @@ namespace InternetHerokuapp
 
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/drag_and_drop";
 
-                //string filePath = @"C:\Users\Vitalina\documents\visual studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\Scripts\drag_and_drop_helper.js";
-
                 Actions actions = new Actions(webDriverHelper.GetDriver());
 
                 IWebElement source = webDriverHelper.GetDriver().FindElement(By.Id("column-a"));
                 IWebElement target = webDriverHelper.GetDriver().FindElement(By.Id("column-b"));
-                
+
                 actions.DragAndDrop(source, target);
                 actions.Perform();
-                
+
                 actions.Build();
                 actions.Perform();
 
@@ -302,7 +300,7 @@ namespace InternetHerokuapp
                 selectElement.SelectByText("Option 1");
                 bool isOption1Displayed = selectElement.SelectedOption.Displayed;
                 Assert.IsTrue(isOption1Displayed, "Option 1");
-                
+
                 selectElement.SelectByText("Option 2");
                 bool isOption2Displayed = selectElement.SelectedOption.Displayed;
                 Assert.IsTrue(isOption2Displayed, "Option 2");
@@ -310,12 +308,12 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]   //??
-        public void DynamicContent()  
+        public void DynamicContent()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/dynamic_content";
-                
+
             }
         }
 
@@ -324,7 +322,7 @@ namespace InternetHerokuapp
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-               
+
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/dynamic_controls";
 
@@ -347,7 +345,7 @@ namespace InternetHerokuapp
 
                 WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
                 webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("message")));
-               
+
 
                 IWebElement messageItsBack = webDriver.FindElement(By.Id("message"));
                 string messageTextActual2 = messageItsBack.Text;
@@ -380,9 +378,9 @@ namespace InternetHerokuapp
                 string messageTextActual = messageHelloWorld.Text;
                 string messageTextExpected = "Hello World!";
 
-               
+
                 Assert.AreEqual(messageTextExpected, messageTextActual);
-                
+
             }
         }
 
@@ -402,7 +400,6 @@ namespace InternetHerokuapp
                 webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("finish")));
 
                 IWebElement messageId = webDriver.FindElement(By.Id("finish"));
-                //IWebElement messageHelloWorld = messageId.FindElement(By.TagName("h4"));
 
                 WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(20));
                 webDriverWait1.Until(ExpectedConditions.TextToBePresentInElement(messageId, "Hello World!"));
@@ -415,7 +412,32 @@ namespace InternetHerokuapp
 
             }
         }
-        
+
+        [TestMethod]
+        public void ExitIntend()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/exit_intent";
+
+                Actions actions = new Actions(webDriver);
+                actions.MoveByOffset(5000, 0).Perform();
+                
+                IWebElement modalBody = webDriver.FindElement(By.ClassName("modal-body"));
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("modal-body")));
+
+                bool isModalBodyDisplayed = modalBody.Displayed;
+
+                Assert.IsTrue(isModalBodyDisplayed);
+            }
+        }
+
+
         #region
         private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
         {
