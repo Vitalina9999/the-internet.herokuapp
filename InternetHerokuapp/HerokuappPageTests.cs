@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -424,7 +425,7 @@ namespace InternetHerokuapp
 
                 Actions actions = new Actions(webDriver);
                 actions.MoveByOffset(5000, 0).Perform();
-                
+
                 IWebElement modalBody = webDriver.FindElement(By.ClassName("modal-body"));
 
                 WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
@@ -434,6 +435,38 @@ namespace InternetHerokuapp
                 bool isModalBodyDisplayed = modalBody.Displayed;
 
                 Assert.IsTrue(isModalBodyDisplayed);
+            }
+        }
+
+        [TestMethod]
+        public void FileDownload()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                // Open the browser
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+
+                // Load the page
+                webDriver.Url = "http://the-internet.herokuapp.com/download";
+
+                // Grab the URL of the first download link
+                IWebElement example = webDriver.FindElement(By.ClassName("example"));
+
+                IList<IWebElement> aList = example.FindElements(By.TagName("a"));
+
+                foreach (IWebElement href in aList)
+                {
+                    string hrefLink = href.GetAttribute("href");
+                    href.Click();
+                    
+                    //files = Dir.glob("#{@download_dir}/*")
+                    
+
+                    //expect(files.empty?).to eql false
+                    //expect(File.size(files.first)).to be > 0
+
+                }
+                
             }
         }
 
