@@ -439,7 +439,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FileDownload()
+        public void FileDownload()  //??
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -458,21 +458,61 @@ namespace InternetHerokuapp
                 {
                     string hrefLink = href.GetAttribute("href");
                     href.Click();
+
+                    //FileInfo file = new FileInfo("hrefLink");
                     
-                    //files = Dir.glob("#{@download_dir}/*")
+                    //if (file.Length > 0)
+                    //{
+                       
+                    //}
+                    //else
+                    //{
+                    //    Assert.Fail();
+                    //}
+                    
+                    Assert.IsNotNull(hrefLink);
+                   // Assert.IsNotNull(file.Length);
                     
 
-                    //expect(files.empty?).to eql false
-                    //expect(File.size(files.first)).to be > 0
-
-                }
-                
+                 }
             }
         }
 
+        [TestMethod]
+        public void FileUpload()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                // Open the browser
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+
+                // Load the page
+                webDriver.Url = "http://the-internet.herokuapp.com/upload";
+
+                // Grab the URL of the first download link
+                IWebElement uploadFile = webDriver.FindElement(By.Id("file-upload"));
+                uploadFile.Click();
+
+                uploadFile.SendKeys(@"C:\Files\Projects\InternetHerokuapp_git\fileupload.png");
+
+                IWebElement btnSubmit = webDriver.FindElement(By.Id("file-submit"));
+                btnSubmit.Click();
+
+                IWebElement h3 = webDriver.FindElement(By.TagName("h3"));
+                string h3TextActual = h3.Text;
+                string h3TextExpected = "File Uploaded!";
+
+                IWebElement uploadedFile = webDriver.FindElement(By.Id("uploaded-files"));
+                string uploadedFileText = uploadedFile.Text;
+                
+                Assert.AreEqual(h3TextExpected, h3TextActual);
+                Assert.IsNotNull(uploadedFileText);
+            }
+        }
 
         #region
-        private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+            private
+            void dataGridView1_MouseClick(object sender, MouseEventArgs e)
         {
             // http://stackoverflow.com/questions/1718389/right-click-context-menu-for-datagridview
             //http://stackoverflow.com/questions/973721/c-sharp-detecting-if-the-shift-key-is-held-when-opening-a-context-menu
@@ -501,10 +541,8 @@ namespace InternetHerokuapp
             return true;
         }
         #endregion
-
-
+        
         //https://stackoverflow.com/questions/31532534/identifying-number-of-iframes-in-a-page-using-selenium
-
-
+        
     }
 }
