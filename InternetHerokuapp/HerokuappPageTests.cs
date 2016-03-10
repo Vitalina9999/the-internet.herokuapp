@@ -590,7 +590,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void LoginPage() 
+        public void LoginPage()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -614,20 +614,20 @@ namespace InternetHerokuapp
                 IWebElement logoutBtn = webDriver.FindElement(By.LinkText("Logout"));
 
                 logoutBtn.Click();
-                
+
                 //login unsuccess
                 WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
                 webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("example")));
 
                 IWebElement loginBtn1 = webDriver.FindElement(By.TagName("button"));
                 loginBtn1.Click();
-                
+
                 webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("flash")));
 
                 IWebElement msgError = webDriver.FindElement(By.Id("flash"));
                 bool isMsgErrorAppeared = msgError.Displayed;
                 Assert.IsTrue(isMsgErrorAppeared);
-                
+
                 IWebElement usernameTbx1 = webDriver.FindElement(By.Id("username"));
                 usernameTbx1.SendKeys("tomsmith");
 
@@ -641,6 +641,26 @@ namespace InternetHerokuapp
                 IWebElement msgError2 = webDriver.FindElement(By.Id("flash"));
                 bool isMsgErrorAppeared2 = msgError2.Displayed;
                 Assert.IsTrue(isMsgErrorAppeared);
+
+            }
+        }
+
+        [TestMethod]
+        public void NestedFrames()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/nested_frames";
+
+                webDriver.SwitchTo().Frame("frame-top");
+
+                webDriver.SwitchTo().Frame("frame-middle");
+
+                IWebElement contentId = webDriver.FindElement(By.Id("content"));
+                string contentTextActual = contentId.Text;
+                string contentTextExpected = "MIDDLE";
+                Assert.AreEqual(contentTextExpected, contentTextActual);
 
             }
         }
