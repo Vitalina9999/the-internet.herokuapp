@@ -439,7 +439,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FileDownload()  //??
+        public void FileDownload() //??
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -460,21 +460,21 @@ namespace InternetHerokuapp
                     href.Click();
 
                     //FileInfo file = new FileInfo("hrefLink");
-                    
+
                     //if (file.Length > 0)
                     //{
-                       
+
                     //}
                     //else
                     //{
                     //    Assert.Fail();
                     //}
-                    
-                    Assert.IsNotNull(hrefLink);
-                   // Assert.IsNotNull(file.Length);
-                    
 
-                 }
+                    Assert.IsNotNull(hrefLink);
+                    // Assert.IsNotNull(file.Length);
+
+
+                }
             }
         }
 
@@ -504,15 +504,151 @@ namespace InternetHerokuapp
 
                 IWebElement uploadedFile = webDriver.FindElement(By.Id("uploaded-files"));
                 string uploadedFileText = uploadedFile.Text;
-                
+
                 Assert.AreEqual(h3TextExpected, h3TextActual);
                 Assert.IsNotNull(uploadedFileText);
             }
         }
 
+        [TestMethod]
+        public void FloatingMenu()   //??
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+
+                webDriver.Url = "http://the-internet.herokuapp.com/floating_menu";
+
+
+            }
+        }
+
+        [TestMethod]
+        public void ForgotPassword()  //??
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            //https://github.com/bugfree-software/the-internet-solution-python/blob/master/tests/test_forgot_password.py
+            //http://elementalselenium.com/tips/43-forgot-password
+            {
+                //Open the browser
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+
+                //Visit the page and initiate the forgot password workflow
+                webDriver.Url = "http://the-internet.herokuapp.com/forgot_password";
+
+                IWebElement emailTbx = webDriver.FindElement(By.Id("email"));
+                emailTbx.SendKeys("");   // add your email :)
+
+                IWebElement submitBtn = webDriver.FindElement(By.TagName("button"));
+                submitBtn.Click();
+
+                IWebElement validation = webDriver.FindElement(By.Id("content"));
+                string validationText = validation.Text;
+                string validationTextExpected = "Your e-mail's been sent!";
+                Assert.AreEqual(validationTextExpected, validationText);
+
+                //Headlessly access Gmail and retrieve the email message body
+
+                webDriver.Url = "https://mail.google.com/mail/u/0/#inbox";
+
+                IWebElement emailGmail = webDriver.FindElement(By.Id("Email"));
+                emailGmail.SendKeys("");   // add your email :)
+
+                IWebElement nextBtnGmail = webDriver.FindElement(By.Id("next"));
+                nextBtnGmail.Click();
+
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("Passwd")));
+
+                IWebElement passwordGmail = webDriver.FindElement(By.Id("Passwd"));
+                passwordGmail.SendKeys("");     // add your pass :)
+
+                IWebElement signIn = webDriver.FindElement(By.Id("signIn"));
+                signIn.Click();
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id(":2w")));
+
+                IWebElement emailNoReply = webDriver.FindElement(By.Name("no-reply"));
+                string noreplyActual = emailNoReply.GetAttribute("name");
+
+                // string noreplyActual = emailNoReply.Text;
+                string noreplyExpected = "no-reply";
+                Assert.AreEqual(noreplyExpected, noreplyActual);
+
+                emailNoReply.Click();
+
+                IWebElement emailFirstId = webDriver.FindElement(By.Id(":86"));
+                //url =  message_body.scan(/https?:\/\/[\S]+/).last
+                //  username = message_body.scan(/username: (.*)$/)[0][0].strip
+                //  password = message_body.scan(/password: (.*)$/)[0][0].strip
+
+                //email_address = S("#email").web_element.text
+
+            }
+        }
+
+        [TestMethod]
+        public void LoginPage() 
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                //login success
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/login";
+
+                IWebElement usernameTbx = webDriver.FindElement(By.Id("username"));
+                usernameTbx.SendKeys("tomsmith");
+
+                IWebElement passwordTbx = webDriver.FindElement(By.Id("password"));
+                passwordTbx.SendKeys("SuperSecretPassword!");
+
+                IWebElement loginBtn = webDriver.FindElement(By.TagName("button"));
+                loginBtn.Click();
+
+                IWebElement msgSuccess = webDriver.FindElement(By.Id("flash"));
+                bool isMsgSuccessAppeared = msgSuccess.Displayed;
+                Assert.IsTrue(isMsgSuccessAppeared);
+
+                IWebElement logoutBtn = webDriver.FindElement(By.LinkText("Logout"));
+
+                logoutBtn.Click();
+                
+                //login unsuccess
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.ClassName("example")));
+
+                IWebElement loginBtn1 = webDriver.FindElement(By.TagName("button"));
+                loginBtn1.Click();
+                
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("flash")));
+
+                IWebElement msgError = webDriver.FindElement(By.Id("flash"));
+                bool isMsgErrorAppeared = msgError.Displayed;
+                Assert.IsTrue(isMsgErrorAppeared);
+                
+                IWebElement usernameTbx1 = webDriver.FindElement(By.Id("username"));
+                usernameTbx1.SendKeys("tomsmith");
+
+                IWebElement passwordTbx1 = webDriver.FindElement(By.Id("password"));
+                passwordTbx1.SendKeys("IncorrectPassword!");
+                Assert.IsTrue(isMsgErrorAppeared);
+
+                IWebElement loginBtn2 = webDriver.FindElement(By.TagName("button"));
+                loginBtn2.Click();
+
+                IWebElement msgError2 = webDriver.FindElement(By.Id("flash"));
+                bool isMsgErrorAppeared2 = msgError2.Displayed;
+                Assert.IsTrue(isMsgErrorAppeared);
+
+            }
+        }
+
+
         #region
-            private
-            void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+        private
+        void dataGridView1_MouseClick(object sender, MouseEventArgs e)
         {
             // http://stackoverflow.com/questions/1718389/right-click-context-menu-for-datagridview
             //http://stackoverflow.com/questions/973721/c-sharp-detecting-if-the-shift-key-is-held-when-opening-a-context-menu
@@ -541,8 +677,8 @@ namespace InternetHerokuapp
             return true;
         }
         #endregion
-        
+
         //https://stackoverflow.com/questions/31532534/identifying-number-of-iframes-in-a-page-using-selenium
-        
+
     }
 }
