@@ -154,7 +154,7 @@ namespace InternetHerokuapp
                 //}
 
             }
-        }
+        }  //??
 
         [TestMethod]
         public void Checkboxes()
@@ -316,7 +316,7 @@ namespace InternetHerokuapp
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/dynamic_content";
 
             }
-        }
+        }  //??
 
         [TestMethod]
         public void DynamicControls()
@@ -696,6 +696,35 @@ namespace InternetHerokuapp
             }
         }
 
+        [TestMethod]
+        public void Geolocation()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/geolocation";
+
+                IWebElement geoBtn = webDriver.FindElement(By.TagName("button"));
+                geoBtn.Click();
+
+                // Crash   
+                IAlert alert = webDriver.SwitchTo().Alert();
+                alert.Accept();
+                //
+               
+                IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
+                IWebElement geoLat = webDriver.FindElement(By.Id("long-value"));
+
+                IWebElement googleLink = webDriver.FindElement(By.Id("map-link"));
+                string googleLinkActual = googleLink.Text;
+                string googleLinkExpected = "See it on Google";
+
+
+                Assert.IsTrue(googleLink.Displayed);
+                Assert.IsTrue(geoBtn.Displayed);
+                Assert.AreEqual(googleLinkExpected, googleLinkActual);
+            }
+        }
 
         #region
         private
