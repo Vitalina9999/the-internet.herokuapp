@@ -665,6 +665,37 @@ namespace InternetHerokuapp
             }
         }
 
+        [TestMethod]
+        public void iFrames()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/iframe";
+
+                //grab the original text and store it
+                webDriver.SwitchTo().Frame("mce_0_ifr");
+
+                IWebElement editor = webDriver.FindElement(By.Id("tinymce"));
+
+                string beforeEditorText = editor.Text;
+
+                //clear and input new text
+                editor.Clear();
+
+                editor.SendKeys("Hello World!");
+
+                //grab the new text value
+                string afterEditorText = editor.Text;
+
+                //assert that the original and new texts are not the same
+                Assert.AreNotSame(afterEditorText, beforeEditorText);
+
+                webDriver.SwitchTo().DefaultContent();
+                Assert.IsNotNull(webDriver.FindElement(By.CssSelector("h3")));
+            }
+        }
+
 
         #region
         private
