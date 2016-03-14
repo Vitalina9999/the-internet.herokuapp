@@ -761,13 +761,63 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/infinite_scroll";
 
                 IList<IWebElement> infinityScrollList = webDriver.FindElements(By.TagName("a"));
-                
+
+                Actions actions = new Actions(webDriver);
+
+
                 foreach (IWebElement infinityScroll in infinityScrollList)
                 {
-                   string href = infinityScroll.GetAttribute("href");
-                   
+                    string href = infinityScroll.GetAttribute("href");
+
+
                 }
+
+            }
+        }
+
+        [TestMethod]
+        public void JQueryUIMenu()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/jqueryui/menu";
+
+                IWebElement enableMenu = webDriver.FindElement(By.Id("ui-id-2"));
+                Thread.Sleep(2000);
+
+                Actions actionss = new Actions(webDriver);
+                actionss.MoveToElement(enableMenu).Perform();
                 
+                IWebElement downloadMenu = webDriver.FindElement(By.Id("ui-id-4"));
+                Thread.Sleep(2000);
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
+
+                actionss.MoveToElement(downloadMenu).Perform();
+
+                IWebElement pdfMenu = webDriver.FindElement(By.Id("ui-id-6"));
+                Thread.Sleep(2000);
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-6")));
+
+                actionss.MoveToElement(pdfMenu).Build().Perform();
+                pdfMenu.Click();
+
+
+                //foreach (IWebElement enableMenu in enableMenuList)
+                //{
+                //    Actions actions = new Actions(webDriver);
+                //    actions.MoveToElement(enableMenu).Perform();
+
+
+                //    IWebElement figcaption = webDriver.FindElement(By.ClassName("figcaption"));
+                //    string text = figcaption.Text;
+
+
+                //    Assert.IsTrue(figcaption.Displayed);
+                //}
+
             }
         }
 
