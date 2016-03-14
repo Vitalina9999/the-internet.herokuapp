@@ -697,7 +697,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void Geolocation()
+        public void Geolocation()  //??
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -707,11 +707,13 @@ namespace InternetHerokuapp
                 IWebElement geoBtn = webDriver.FindElement(By.TagName("button"));
                 geoBtn.Click();
 
-                // Crash   
+                // Crash 
+
                 IAlert alert = webDriver.SwitchTo().Alert();
                 alert.Accept();
+                alert.Dismiss();
                 //
-               
+
                 IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
                 IWebElement geoLat = webDriver.FindElement(By.Id("long-value"));
 
@@ -723,6 +725,31 @@ namespace InternetHerokuapp
                 Assert.IsTrue(googleLink.Displayed);
                 Assert.IsTrue(geoBtn.Displayed);
                 Assert.AreEqual(googleLinkExpected, googleLinkActual);
+            }
+        }
+
+        [TestMethod]
+        public void Hovers()  //??
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/hovers";
+
+                IList<IWebElement> figuresList = webDriver.FindElements(By.ClassName("figure"));
+                foreach (IWebElement figure in figuresList)
+                {
+                    Actions actions = new Actions(webDriver);
+                    actions.MoveToElement(figure).Perform();
+                  
+                   //on 1-st is Ok, but on 2-nd, 3-rd not
+                    IWebElement figcaption = webDriver.FindElement(By.ClassName("figcaption"));
+                    string text = figcaption.Text;
+                   
+
+                    Assert.IsTrue(figcaption.Displayed);
+                }
+
             }
         }
 
