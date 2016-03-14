@@ -711,7 +711,6 @@ namespace InternetHerokuapp
 
                 IAlert alert = webDriver.SwitchTo().Alert();
                 alert.Accept();
-                alert.Dismiss();
                 //
 
                 IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
@@ -741,15 +740,34 @@ namespace InternetHerokuapp
                 {
                     Actions actions = new Actions(webDriver);
                     actions.MoveToElement(figure).Perform();
-                  
-                   //on 1-st is Ok, but on 2-nd, 3-rd not
+
+                    //on 1-st is Ok, but on 2-nd, 3-rd not
                     IWebElement figcaption = webDriver.FindElement(By.ClassName("figcaption"));
                     string text = figcaption.Text;
-                   
+
 
                     Assert.IsTrue(figcaption.Displayed);
                 }
 
+            }
+        }
+
+        [TestMethod]
+        public void InfiniteScroll() //??
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/infinite_scroll";
+
+                IList<IWebElement> infinityScrollList = webDriver.FindElements(By.TagName("a"));
+                
+                foreach (IWebElement infinityScroll in infinityScrollList)
+                {
+                   string href = infinityScroll.GetAttribute("href");
+                   
+                }
+                
             }
         }
 
