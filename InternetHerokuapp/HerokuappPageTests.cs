@@ -728,25 +728,40 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void Hovers()  //??
+        public void Hovers() 
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/hovers";
+                
+                List<IWebElement> detailsSummaries = webDriver.FindElements(By.ClassName("figcaption")).ToList();
 
-                IList<IWebElement> figuresList = webDriver.FindElements(By.ClassName("figure"));
-                foreach (IWebElement figure in figuresList)
+                List<IWebElement> userPhotos = webDriver.FindElements(By.ClassName("figure")).ToList();
+
+                Actions actions = new Actions(webDriver);
+
+                int i = 0;
+
+                foreach (IWebElement userPhoto in userPhotos)
                 {
-                    Actions actions = new Actions(webDriver);
-                    actions.MoveToElement(figure).Perform();
+                    i++;
 
-                    //on 1-st is Ok, but on 2-nd, 3-rd not
-                    IWebElement figcaption = webDriver.FindElement(By.ClassName("figcaption"));
-                    string text = figcaption.Text;
+                    actions.MoveToElement(userPhoto).Perform();
+                    IWebElement element = detailsSummaries.FirstOrDefault(x => x.Displayed);
+
+                    Assert.IsNotNull(element, "Element cannot be null");
+
+                    IWebElement userName = element.FindElements(By.TagName("h5")).ToList().FirstOrDefault();
+                    Assert.IsNotNull(userName, "userName cannot be null");
+                    Assert.AreEqual("name: user" + i, userName.Text, "OOOH NO, strings are not mutch!!! uuuuuu");
+
+                    IWebElement viewProfileLink = element.FindElements(By.TagName("a")).ToList().FirstOrDefault();
+                    Assert.IsNotNull(viewProfileLink, "viewProfileLink cannot be null");
+                    Assert.AreEqual("View profile", viewProfileLink.Text, "OOOH NO, strings are not mutch!!! uuuuuu");
+                    Assert.IsTrue(viewProfileLink.GetAttribute("href").Contains("/users/" + i), "OH NOOOOO!! link is WROOOOOOONG!");
 
 
-                    Assert.IsTrue(figcaption.Displayed);
                 }
 
             }
@@ -788,7 +803,7 @@ namespace InternetHerokuapp
 
                 Actions actionss = new Actions(webDriver);
                 actionss.MoveToElement(enableMenu).Perform();
-                
+
                 IWebElement downloadMenu = webDriver.FindElement(By.Id("ui-id-4"));
                 Thread.Sleep(2000);
                 WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
@@ -819,7 +834,7 @@ namespace InternetHerokuapp
                 //}
 
             }
-        }
+        } //??
 
         #region
         private
