@@ -801,26 +801,26 @@ namespace InternetHerokuapp
 
                 IWebElement enableMenu = webDriver.FindElement(By.Id("ui-id-2"));
                 enableMenu.Click();
-                
+
                 Actions actions = new Actions(webDriver);
                 actions.MoveToElement(enableMenu).Perform();
 
                 IWebElement downloadMenu = webDriver.FindElement(By.Id("ui-id-4"));
                 downloadMenu.Click();
-               // WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-               // webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
+                // WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                // webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
 
                 actions.MoveToElement(downloadMenu).Perform();
-              
+
                 IWebElement pdfMenu = webDriver.FindElement(By.Id("ui-id-6"));
-              
+
                 ReadOnlyCollection<IWebElement> pageLinks = webDriver.FindElements(By.TagName("a"));
 
                 foreach (IWebElement pdfLink in pageLinks)
                 {
                     string hrefLink = pdfLink.GetAttribute("href");
                     string linkPdf = "/download/jqueryui/menu/menu.pdf";
-                   
+
 
                     if (hrefLink.Contains(linkPdf))
                     {
@@ -832,10 +832,35 @@ namespace InternetHerokuapp
                     {
                         string elementNotAppears = "element NOT appears";
                     }
-                 }
-                
+                }
+
             }
         } //??
+
+        [TestMethod]
+        public void Javascript_alerts()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/javascript_alerts";
+
+                List<IWebElement> buttonList = webDriver.FindElements(By.TagName("button")).ToList();
+                Actions actions = new Actions(webDriver);
+                
+                int i = 0;
+                foreach (IWebElement button in buttonList)
+                {
+                    i++;
+                    button.Click();
+                    IAlert iAlert = webDriver.SwitchTo().Alert();
+                    iAlert.Accept();
+                    IWebElement result = webDriver.FindElement(By.Id("result"));
+                    Assert.IsTrue(result.Displayed);
+                }
+            }
+        }
+
 
         #region
         private
