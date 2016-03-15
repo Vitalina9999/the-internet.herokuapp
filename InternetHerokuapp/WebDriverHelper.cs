@@ -16,6 +16,9 @@ namespace InternetHerokuapp
         {
             if (_webDriver == null)
             {
+                //ChromeOptions options = new ChromeOptions();
+                //options.AddArguments(@"--user-data-dir=C:\Users\Vitalina\AppData\Local\Google\Chrome\User Data");
+
                 _webDriver = new ChromeDriver(@"C:\Users\Vitalina\Documents\Visual Studio 2013\Projects\InternetHerokuapp\InternetHerokuapp\bin\Debug");
             }
             return _webDriver;

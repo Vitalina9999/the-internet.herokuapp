@@ -699,6 +699,8 @@ namespace InternetHerokuapp
         [TestMethod]
         public void Geolocation()  //??
         {
+            //http://www.softwaretestinghelp.com/handle-alerts-popups-selenium-webdriver-selenium-tutorial-16/
+            //http://geolocate-me.com/faq
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
@@ -707,11 +709,10 @@ namespace InternetHerokuapp
                 IWebElement geoBtn = webDriver.FindElement(By.TagName("button"));
                 geoBtn.Click();
 
-                // Crash 
+                //// Crash 
 
-                IAlert alert = webDriver.SwitchTo().Alert();
-                alert.Accept();
-                //
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+                js.ExecuteScript("");
 
                 IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
                 IWebElement geoLat = webDriver.FindElement(By.Id("long-value"));
@@ -728,13 +729,13 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void Hovers() 
+        public void Hovers()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/hovers";
-                
+
                 List<IWebElement> detailsSummaries = webDriver.FindElements(By.ClassName("figcaption")).ToList();
 
                 List<IWebElement> userPhotos = webDriver.FindElements(By.ClassName("figure")).ToList();
@@ -799,40 +800,40 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/jqueryui/menu";
 
                 IWebElement enableMenu = webDriver.FindElement(By.Id("ui-id-2"));
-                Thread.Sleep(2000);
-
-                Actions actionss = new Actions(webDriver);
-                actionss.MoveToElement(enableMenu).Perform();
+                enableMenu.Click();
+                
+                Actions actions = new Actions(webDriver);
+                actions.MoveToElement(enableMenu).Perform();
 
                 IWebElement downloadMenu = webDriver.FindElement(By.Id("ui-id-4"));
-                Thread.Sleep(2000);
-                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
+                downloadMenu.Click();
+               // WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+               // webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
 
-                actionss.MoveToElement(downloadMenu).Perform();
-
+                actions.MoveToElement(downloadMenu).Perform();
+              
                 IWebElement pdfMenu = webDriver.FindElement(By.Id("ui-id-6"));
-                Thread.Sleep(2000);
-                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-6")));
+              
+                ReadOnlyCollection<IWebElement> pageLinks = webDriver.FindElements(By.TagName("a"));
 
-                actionss.MoveToElement(pdfMenu).Build().Perform();
-                pdfMenu.Click();
+                foreach (IWebElement pdfLink in pageLinks)
+                {
+                    string hrefLink = pdfLink.GetAttribute("href");
+                    string linkPdf = "/download/jqueryui/menu/menu.pdf";
+                   
 
+                    if (hrefLink.Contains(linkPdf))
+                    {
+                        // click on link
 
-                //foreach (IWebElement enableMenu in enableMenuList)
-                //{
-                //    Actions actions = new Actions(webDriver);
-                //    actions.MoveToElement(enableMenu).Perform();
+                    }
 
-
-                //    IWebElement figcaption = webDriver.FindElement(By.ClassName("figcaption"));
-                //    string text = figcaption.Text;
-
-
-                //    Assert.IsTrue(figcaption.Displayed);
-                //}
-
+                    else
+                    {
+                        string elementNotAppears = "element NOT appears";
+                    }
+                 }
+                
             }
         } //??
 
