@@ -861,6 +861,27 @@ namespace InternetHerokuapp
             }
         }
 
+        [TestMethod]
+        public void Javascript_error()
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/javascript_error";
+
+                IWebElement pTag = webDriver.FindElement(By.TagName("p"));
+                string jsErrorText = pTag.Text;
+                
+                if (jsErrorText.Contains("This page has a JavaScript error in the onload event"))
+                {
+
+                    Assert.Fail();
+                }
+
+
+            }
+        }
+
 
         #region
         private
