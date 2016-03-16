@@ -944,13 +944,16 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/key_presses";
 
-
-
+                IWebElement example = webDriver.FindElement(By.ClassName("example"));
+              
+                Actions actions = new Actions(webDriver);
+                actions.SendKeys(OpenQA.Selenium.Keys.Enter);
+                actions.Perform();
+                
                 IWebElement result = webDriver.FindElement(By.Id("result"));
+                
                 string resultText = result.Text;
-
-
-
+                Assert.AreEqual(resultText, "You entered: ENTER");
 
             }
         }
