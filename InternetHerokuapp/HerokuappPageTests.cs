@@ -847,16 +847,61 @@ namespace InternetHerokuapp
 
                 List<IWebElement> buttonList = webDriver.FindElements(By.TagName("button")).ToList();
                 Actions actions = new Actions(webDriver);
-                
+
                 int i = 0;
                 foreach (IWebElement button in buttonList)
                 {
                     i++;
                     button.Click();
                     IAlert iAlert = webDriver.SwitchTo().Alert();
-                    iAlert.Accept();
-                    IWebElement result = webDriver.FindElement(By.Id("result"));
-                    Assert.IsTrue(result.Displayed);
+
+                    if (iAlert.Text == "I am a JS Alert")
+                    {
+                        iAlert.Accept();
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultTextActual = result.Text;
+                        string resultTextExpected = "You successfuly clicked an alert";
+                        Assert.AreEqual(resultTextExpected, resultTextActual);
+                    }
+
+                    if (iAlert.Text == "I am a JS Confirm")
+                    {
+                        iAlert.Accept();
+
+                        IWebElement resultAccept = webDriver.FindElement(By.Id("result"));
+                        string resultAcceptTextActual = resultAccept.Text;
+                        string resultAcceptTextExpected = "You clicked: Ok";
+                        Assert.AreEqual(resultAcceptTextExpected, resultAcceptTextActual);
+
+                        button.Click();
+
+                        iAlert.Dismiss();
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultDismissTextActual = result.Text;
+                        string resultDismissTextExpected = "You clicked: Cancel";
+                        Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
+
+                    }
+
+                    if (iAlert.Text == "I am a JS prompt")
+                    {
+                        iAlert.SendKeys("Hello");
+                        // need find decision how to check entered parameter 
+                        //alertEnteredText
+                        //
+                        iAlert.Accept();
+
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultTextExpected = "You entered:";
+                        //Assert.IsTrue(resultTextExpected + alertEnteredText);
+
+                        button.Click();
+                        iAlert.Dismiss();
+                        string resultDismissTextExpected = "You entered: null";
+                        string resultDismissTextActual = result.Text;
+                        Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
+                    }
+
                 }
             }
         }
@@ -871,11 +916,11 @@ namespace InternetHerokuapp
 
                 IWebElement pTag = webDriver.FindElement(By.TagName("p"));
                 string jsErrorText = pTag.Text;
-                
+
                 if (jsErrorText.Contains("This page has a JavaScript error in the onload event"))
                 {
 
-                    Assert.Fail();
+                    Assert.Fail("should be crash, because exist js error");
                 }
 
 
@@ -884,30 +929,7 @@ namespace InternetHerokuapp
 
 
         #region
-        private
-        void dataGridView1_MouseClick(object sender, MouseEventArgs e)
-        {
-            // http://stackoverflow.com/questions/1718389/right-click-context-menu-for-datagridview
-            //http://stackoverflow.com/questions/973721/c-sharp-detecting-if-the-shift-key-is-held-when-opening-a-context-menu
 
-            if (e.Button == MouseButtons.Right)
-            {
-                ContextMenu m = new ContextMenu();
-                m.MenuItems.Add(new System.Windows.Forms.MenuItem("Cut"));
-                m.MenuItems.Add(new System.Windows.Forms.MenuItem("Copy"));
-                m.MenuItems.Add(new System.Windows.Forms.MenuItem("Paste"));
-
-                //int currentMouseOverRow = dataGridView1.HitTest(e.X, e.Y).RowIndex;
-
-                //if (currentMouseOverRow >= 0)
-                //{
-                //    m.MenuItems.Add(new System.Windows.Forms.MenuItem(string.Format("Do something to row {0}", currentMouseOverRow.ToString())));
-                //}
-
-                //m.Show(dataGridView1, new Point(e.X, e.Y));
-
-            }
-        }
 
         public bool IsDisplayed()
         {
