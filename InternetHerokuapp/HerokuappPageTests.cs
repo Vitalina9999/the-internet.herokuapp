@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -844,7 +845,7 @@ namespace InternetHerokuapp
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/javascript_alerts";
-                
+
                 Actions actions = new Actions(webDriver);
                 IWebElement button1 = webDriver.FindElement(By.XPath(("/html/body/div[2]/div/div/ul/li[1]/button")));
                 IWebElement button2 = webDriver.FindElement(By.XPath(("/html/body/div[2]/div/div/ul/li[2]/button")));
@@ -861,7 +862,7 @@ namespace InternetHerokuapp
 
                 button2.Click();
                 iAlert.Accept();
-              //  IWebElement resultAccept2 = webDriver.FindElement(By.Id("result"));
+                //  IWebElement resultAccept2 = webDriver.FindElement(By.Id("result"));
                 string resultAcceptTextActual2 = result.Text;
                 string resultAcceptTextExpected2 = "You clicked: Ok";
                 Assert.AreEqual(resultAcceptTextExpected2, resultAcceptTextActual2);
@@ -878,7 +879,7 @@ namespace InternetHerokuapp
                 iAlert.SendKeys("Hello");
                 iAlert.Accept();
 
-               // IWebElement result = webDriver.FindElement(By.Id("result"));
+                // IWebElement result = webDriver.FindElement(By.Id("result"));
                 string resultTextExpected31 = "You entered: Hello";
                 Assert.IsTrue(result.Displayed);
 
@@ -889,7 +890,7 @@ namespace InternetHerokuapp
                 Assert.AreEqual(resultDismissTextExpected31, resultDismissTextActual31);
 
                 // Variant 2
-           
+
                 List<IWebElement> buttonList = webDriver.FindElements(By.TagName("button")).ToList();
                 int i = 0;
                 foreach (IWebElement button in buttonList)
@@ -982,8 +983,8 @@ namespace InternetHerokuapp
                 IWebElement pTag = webDriver.FindElement(By.TagName("p"));
                 string jsErrorText = pTag.Text;
 
-              Assert.IsTrue(jsErrorText.Contains("This page has a JavaScript error in the onload event"));  
-                
+                Assert.IsTrue(jsErrorText.Contains("This page has a JavaScript error in the onload event"));
+
 
             }
         }
@@ -1010,12 +1011,48 @@ namespace InternetHerokuapp
             }
         }
 
+        [TestMethod]
+        public void LargeAndDeepDom()
+        {
+            //http://elementalselenium.com/tips/verifying-locators
+            //http://elementalselenium.com/tips/65-highlight-elements
+            //http://www.ufthelp.com/2014/11/how-to-implement-highlight-in-selenium.html
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/large";
+
+                //Example 1
+                IWebElement element23 = webDriver.FindElement(By.Id("sibling-2.3"));
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+                js.ExecuteScript("arguments[0].style.border='2px groove green'", element23);
+
+                //Example 2 with method fnHighlightMe
+                fnHighlightMe(webDriver, element23);
+             }
+         }
+
         #region
         public bool IsDisplayed()
         {
             return true;
         }
+
+        public static void fnHighlightMe(IWebDriver driver, IWebElement element)
+        {
+            //Creating JavaScriptExecuter Interface
+            IJavaScriptExecutor js = (IJavaScriptExecutor) driver;
+            for (int iCnt = 0; iCnt < 3; iCnt++)
+            {
+                //Execute javascript
+                js.ExecuteScript("arguments[0].style.border='4px groove red'", element);
+                Thread.Sleep(1000);
+                js.ExecuteScript("arguments[0].style.border=''", element);
+            }
+        }
+
         #endregion
+
 
         //https://stackoverflow.com/questions/31532534/identifying-number-of-iframes-in-a-page-using-selenium
 
