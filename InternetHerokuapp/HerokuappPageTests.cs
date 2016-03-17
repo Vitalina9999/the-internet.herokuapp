@@ -1033,6 +1033,30 @@ namespace InternetHerokuapp
              }
          }
 
+        [TestMethod]
+        public void MultipleWindows()
+        {
+        
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/windows";
+
+                IWebElement newWindow = webDriver.FindElement(By.CssSelector(".example a"));
+                newWindow.Click();
+               
+                webDriver.SwitchTo().Window(webDriver.WindowHandles.First());
+                string windowTextFirst = webDriver.Title;
+
+                Assert.AreNotEqual(windowTextFirst, "New Window");
+
+                webDriver.SwitchTo().Window(webDriver.WindowHandles.Last());
+                string windowTextLast = webDriver.Title;
+
+                Assert.AreEqual(windowTextLast, "New Window");
+            }
+        }
+
 
 
         #region
