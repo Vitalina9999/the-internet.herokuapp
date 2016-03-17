@@ -848,10 +848,10 @@ namespace InternetHerokuapp
                 List<IWebElement> buttonList = webDriver.FindElements(By.TagName("button")).ToList();
                 Actions actions = new Actions(webDriver);
 
-                List<string> alertMessages = new List<string>();
-                alertMessages.Add("I am a JS Alert");
-                alertMessages.Add("I am a JS Confirm");
-                alertMessages.Add("I am a JS prompt");
+                //List<string> alertMessages = new List<string>();
+                //alertMessages.Add("I am a JS Alert");
+                //alertMessages.Add("I am a JS Confirm");
+                //alertMessages.Add("I am a JS prompt");
 
                 int i = 0;
                 foreach (IWebElement button in buttonList)
@@ -859,64 +859,65 @@ namespace InternetHerokuapp
                     i++;
                     button.Click();
                     IAlert iAlert = webDriver.SwitchTo().Alert();
-                    bool isExistAlertText = alertMessages.Any(x => x == iAlert.Text);
-                    iAlert.Accept();
-                    Assert.IsTrue(isExistAlertText, "OOPS, it should be message");
-
-                    //if (iAlert.Text == "I am a JS Alert")
-                    //{
+                    //    bool isExistAlertText = alertMessages.Any(x => x == iAlert.Text);
                     //    iAlert.Accept();
-                    //    IWebElement result = webDriver.FindElement(By.Id("result"));
-                    //    string resultTextActual = result.Text;
-                    //    string resultTextExpected = "You successfuly clicked an alert";
-                    //    Assert.AreEqual(resultTextExpected, resultTextActual);
-                    //}
+                    //    Assert.IsTrue(isExistAlertText, "OOPS, it should be message");
 
-                    //if (alertMessages.Where(x => x.Contains("I am a JS Confirm")))  //    if (iAlert.Text == "I am a JS Confirm")
-                    //{
-                    //    button.Click();
-                    //    iAlert.Accept();
+                    if (button.Text == "I am a JS Alert") //iAlert.Text == "I am a JS Alert"  button.Text == "I am a JS Alert"
+                    {
+                        iAlert.Accept();
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultTextActual = result.Text;
+                        string resultTextExpected = "You successfuly clicked an alert";
+                        Assert.AreEqual(resultTextExpected, resultTextActual);
+                    }
 
-                    //    IWebElement resultAccept = webDriver.FindElement(By.Id("result"));
-                    //    string resultAcceptTextActual = resultAccept.Text;
-                    //    string resultAcceptTextExpected = "You clicked: Ok";
-                    //    Assert.AreEqual(resultAcceptTextExpected, resultAcceptTextActual);
+                    if (button.Text == "I am a JS Confirm")//    if (iAlert.Text == "I am a JS Confirm")
+                    {
+                        button.Click();
+                        iAlert.Accept();
 
-                    //    button.Click();
+                        IWebElement resultAccept = webDriver.FindElement(By.Id("result"));
+                        string resultAcceptTextActual = resultAccept.Text;
+                        string resultAcceptTextExpected = "You clicked: Ok";
+                        Assert.AreEqual(resultAcceptTextExpected, resultAcceptTextActual);
 
-                    //    iAlert.Dismiss();
-                    //    IWebElement result = webDriver.FindElement(By.Id("result"));
-                    //    string resultDismissTextActual = result.Text;
-                    //    string resultDismissTextExpected = "You clicked: Cancel";
-                    //    Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
+                        button.Click();
 
-                    //}
+                        iAlert.Dismiss();
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultDismissTextActual = result.Text;
+                        string resultDismissTextExpected = "You clicked: Cancel";
+                        Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
 
-                    //if (iAlert.Text == "I am a JS prompt")
-                    //{
-                    //    iAlert.SendKeys("Hello");
-                    //    // need find decision how to check entered parameter 
-                    //    //alertEnteredText
-                    //    //
-                    //    iAlert.Accept();
+                    }
 
-                    //    IWebElement result = webDriver.FindElement(By.Id("result"));
-                    //    string resultTextExpected = "You entered:";
-                    //    //Assert.IsTrue(resultTextExpected + alertEnteredText);
+                    if (button.Text == "I am a JS prompt")
+                    {
+                        iAlert.SendKeys("Hello");
+                        // need find decision how to check entered parameter 
+                        //alertEnteredText
+                        //
+                        iAlert.Accept();
 
-                    //    button.Click();
-                    //    iAlert.Dismiss();
-                    //    string resultDismissTextExpected = "You entered: null";
-                    //    string resultDismissTextActual = result.Text;
-                    //    Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
-                    //}
+                        IWebElement result = webDriver.FindElement(By.Id("result"));
+                        string resultTextExpected = "You entered:";
+                        //Assert.IsTrue(resultTextExpected + alertEnteredText);
+
+                        button.Click();
+                        iAlert.Dismiss();
+                        string resultDismissTextExpected = "You entered: null";
+                        string resultDismissTextActual = result.Text;
+                        Assert.AreEqual(resultDismissTextExpected, resultDismissTextActual);
+                    }
 
                 }
             }
+
         }
 
         [TestMethod]
-        public void Javascript_error()
+         public  void Javascript_error()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -957,10 +958,8 @@ namespace InternetHerokuapp
 
             }
         }
-
-        #region
-
-
+        
+#region
         public bool IsDisplayed()
         {
             return true;
