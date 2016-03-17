@@ -1028,9 +1028,12 @@ namespace InternetHerokuapp
                 js.ExecuteScript("arguments[0].style.border='2px groove green'", element23);
 
                 //Example 2 with method fnHighlightMe
-                fnHighlightMe(webDriver, element23);
+                IWebElement element22 = webDriver.FindElement(By.Id("sibling-2.2"));
+                fnHighlightMe(webDriver, element22);
              }
          }
+
+
 
         #region
         public bool IsDisplayed()
