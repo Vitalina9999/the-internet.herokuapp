@@ -113,7 +113,8 @@ namespace InternetHerokuapp
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-
+                // http://testerslab.herokuapp.com/
+                //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/challenging_dom";
 
                 DataGridView dataGrid;
@@ -1030,13 +1031,13 @@ namespace InternetHerokuapp
                 //Example 2 with method fnHighlightMe
                 IWebElement element22 = webDriver.FindElement(By.Id("sibling-2.2"));
                 fnHighlightMe(webDriver, element22);
-             }
-         }
+            }
+        }
 
         [TestMethod]
         public void MultipleWindows()
         {
-        
+
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
@@ -1044,7 +1045,7 @@ namespace InternetHerokuapp
 
                 IWebElement newWindow = webDriver.FindElement(By.CssSelector(".example a"));
                 newWindow.Click();
-               
+
                 webDriver.SwitchTo().Window(webDriver.WindowHandles.First());
                 string windowTextFirst = webDriver.Title;
 
@@ -1054,6 +1055,71 @@ namespace InternetHerokuapp
                 string windowTextLast = webDriver.Title;
 
                 Assert.AreEqual(windowTextLast, "New Window");
+            }
+        }
+
+        [TestMethod]
+        public void NotificationMessage()
+        {
+           using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                    IWebDriver webDriver = webDriverHelper.GetDriver();
+                    webDriver.Url = "http://the-internet.herokuapp.com/notification_message_rendered";
+
+                    IWebElement clickHereLink = webDriver.FindElement(By.LinkText("Click here"));
+                    clickHereLink.Click();
+                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        IWebElement msgNotification = webDriver.FindElement(By.Id("flash"));
+                        string msgActual = msgNotification.Text;
+
+                        if (msgActual.Contains("Action successful"))
+                        {
+                            Assert.IsTrue(msgActual.Contains("Action successful"));
+                        }
+
+                        else
+                        {
+                            Assert.IsTrue(msgActual.Contains("Action unsuccesful, please try again"));
+                        }
+
+                        WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                        webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("flash")));
+
+                        IWebElement clickHereLink1 = webDriver.FindElement(By.LinkText("Click here"));
+                        clickHereLink1.Click();
+                     }
+              }
+        }
+
+        [TestMethod]
+        public void StatusСodes() //??
+        {
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/status_codes";
+
+                IWebElement link200 = webDriver.FindElement(By.LinkText("200"));
+                IWebElement link301 = webDriver.FindElement(By.LinkText("301"));
+                IWebElement link404 = webDriver.FindElement(By.LinkText("404"));
+                IWebElement link500 = webDriver.FindElement(By.LinkText("500"));
+
+
+                link200.Click();
+                RestClient restClient = new RestClient("http://the-internet.herokuapp.com/status_codes/200");
+
+                RestRequest restRequest = new RestRequest();
+               
+                IRestResponse response = restClient.Execute(restRequest);
+                HttpStatusCode actualStatusCode = response.StatusCode;
+                
+                //   r = requests.head(link.get_attribute('href')
+                //      print(r.status_code == 200)
+             
+              
+
             }
         }
 
@@ -1068,7 +1134,7 @@ namespace InternetHerokuapp
         public static void fnHighlightMe(IWebDriver driver, IWebElement element)
         {
             //Creating JavaScriptExecuter Interface
-            IJavaScriptExecutor js = (IJavaScriptExecutor) driver;
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             for (int iCnt = 0; iCnt < 3; iCnt++)
             {
                 //Execute javascript
@@ -1078,10 +1144,11 @@ namespace InternetHerokuapp
             }
         }
 
+
         #endregion
 
 
         //https://stackoverflow.com/questions/31532534/identifying-number-of-iframes-in-a-page-using-selenium
-
+        //http://www.ufthelp.com/2014/11/working-with-action-class-in-selenium.html
     }
 }
