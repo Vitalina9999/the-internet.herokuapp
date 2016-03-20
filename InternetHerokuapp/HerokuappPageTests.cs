@@ -291,18 +291,17 @@ namespace InternetHerokuapp
         }     //??
 
         [TestMethod]
-        public void DropdownList()     // Assert ?
+        public void DropdownList()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/dropdown";
 
-                IWebElement dropdownId = webDriverHelper.GetDriver().FindElement(By.Id("dropdown"));
-                SelectElement selectElement = new SelectElement(dropdownId);
+                IWebElement dropdownElement = webDriverHelper.GetDriver().FindElement(By.Id("dropdown"));
+                SelectElement selectElement = new SelectElement(dropdownElement);
 
                 selectElement.SelectByText("Option 1");
-                bool isOption1Displayed = selectElement.SelectedOption.Displayed;
-                Assert.IsTrue(isOption1Displayed, "Option 1");
+                Assert.IsTrue(selectElement.SelectedOption.Displayed, "Option 1");
 
                 selectElement.SelectByText("Option 2");
                 bool isOption2Displayed = selectElement.SelectedOption.Displayed;
@@ -310,7 +309,7 @@ namespace InternetHerokuapp
             }
         }
 
-        [TestMethod]   //??
+        [TestMethod]
         public void DynamicContent()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -441,7 +440,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FileDownload() //??
+        public void FileDownload()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -454,28 +453,18 @@ namespace InternetHerokuapp
                 // Grab the URL of the first download link
                 IWebElement example = webDriver.FindElement(By.ClassName("example"));
 
+                string browserDownloadPath = @"C:\Users\Vitalina\Downloads";
+
                 IList<IWebElement> aList = example.FindElements(By.TagName("a"));
 
                 foreach (IWebElement href in aList)
                 {
-                    string hrefLink = href.GetAttribute("href");
                     href.Click();
 
-                    //FileInfo file = new FileInfo("hrefLink");
+                    string filePath = browserDownloadPath + "\\" + href.Text;
 
-                    //if (file.Length > 0)
-                    //{
-
-                    //}
-                    //else
-                    //{
-                    //    Assert.Fail();
-                    //}
-
-                    Assert.IsNotNull(hrefLink);
-                    // Assert.IsNotNull(file.Length);
-
-
+                    FileInfo file = new FileInfo(filePath);
+                    Assert.IsTrue(file.Length > 0, "File is empty");
                 }
             }
         }
@@ -529,9 +518,10 @@ namespace InternetHerokuapp
         [TestMethod]
         public void ForgotPassword()  //??
         {
-            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             //https://github.com/bugfree-software/the-internet-solution-python/blob/master/tests/test_forgot_password.py
             //http://elementalselenium.com/tips/43-forgot-password
+
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 //Open the browser
                 IWebDriver webDriver = webDriverHelper.GetDriver();
@@ -540,7 +530,7 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/forgot_password";
 
                 IWebElement emailTbx = webDriver.FindElement(By.Id("email"));
-                emailTbx.SendKeys("");   // add your email :)
+                emailTbx.SendKeys("vitalinatest9999@gmail.com");   // add your email :)
 
                 IWebElement submitBtn = webDriver.FindElement(By.TagName("button"));
                 submitBtn.Click();
@@ -550,43 +540,47 @@ namespace InternetHerokuapp
                 string validationTextExpected = "Your e-mail's been sent!";
                 Assert.AreEqual(validationTextExpected, validationText);
 
-                //Headlessly access Gmail and retrieve the email message body
+                #region OLD CODE LOGIN TO GMAIL
+                //Headlessly access Gmail and retrieve the email message body 
+                //webDriver.Url = "https://mail.google.com/mail/u/0/#inbox";
 
-                webDriver.Url = "https://mail.google.com/mail/u/0/#inbox";
+                //IWebElement emailGmail = webDriver.FindElement(By.Id("Email"));
+                //emailGmail.SendKeys("vitalinatest9999@gmail.com");   // add your email :)
 
-                IWebElement emailGmail = webDriver.FindElement(By.Id("Email"));
-                emailGmail.SendKeys("");   // add your email :)
+                //IWebElement nextBtnGmail = webDriver.FindElement(By.Id("next"));
+                //nextBtnGmail.Click();
 
-                IWebElement nextBtnGmail = webDriver.FindElement(By.Id("next"));
-                nextBtnGmail.Click();
+                //WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                //webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("Passwd")));
 
-                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("Passwd")));
+                //IWebElement passwordGmail = webDriver.FindElement(By.Id("Passwd"));
+                //passwordGmail.SendKeys("q1w2e3r412345");     // add your pass :)
 
-                IWebElement passwordGmail = webDriver.FindElement(By.Id("Passwd"));
-                passwordGmail.SendKeys("");     // add your pass :)
+                //IWebElement signIn = webDriver.FindElement(By.Id("signIn"));
+                //signIn.Click();
 
-                IWebElement signIn = webDriver.FindElement(By.Id("signIn"));
-                signIn.Click();
+                //WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                //webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id(":2w")));
 
-                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id(":2w")));
+                //IWebElement emailNoReply = webDriver.FindElement(By.Name("no-reply"));
+                //string noreplyActual = emailNoReply.GetAttribute("name");
 
-                IWebElement emailNoReply = webDriver.FindElement(By.Name("no-reply"));
-                string noreplyActual = emailNoReply.GetAttribute("name");
+                //// string noreplyActual = emailNoReply.Text;
+                //string noreplyExpected = "no-reply";
+                //Assert.AreEqual(noreplyExpected, noreplyActual);
 
-                // string noreplyActual = emailNoReply.Text;
-                string noreplyExpected = "no-reply";
-                Assert.AreEqual(noreplyExpected, noreplyActual);
+                //emailNoReply.Click();
 
-                emailNoReply.Click();
+                //IWebElement emailFirstId = webDriver.FindElement(By.Id(":86")); 
 
-                IWebElement emailFirstId = webDriver.FindElement(By.Id(":86"));
                 //url =  message_body.scan(/https?:\/\/[\S]+/).last
                 //  username = message_body.scan(/username: (.*)$/)[0][0].strip
                 //  password = message_body.scan(/password: (.*)$/)[0][0].strip
 
                 //email_address = S("#email").web_element.text
+                #endregion
+
+                //
 
             }
         }
@@ -847,7 +841,7 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/javascript_alerts";
 
-                Actions actions = new Actions(webDriver);
+
                 IWebElement button1 = webDriver.FindElement(By.XPath(("/html/body/div[2]/div/div/ul/li[1]/button")));
                 IWebElement button2 = webDriver.FindElement(By.XPath(("/html/body/div[2]/div/div/ul/li[2]/button")));
                 IWebElement button3 = webDriver.FindElement(By.XPath(("/html/body/div[2]/div/div/ul/li[3]/button")));
@@ -882,7 +876,8 @@ namespace InternetHerokuapp
 
                 // IWebElement result = webDriver.FindElement(By.Id("result"));
                 string resultTextExpected31 = "You entered: Hello";
-                Assert.IsTrue(result.Displayed);
+                string resultDismissTextActual311 = result.Text;
+                Assert.AreEqual(resultTextExpected31, resultDismissTextActual311);
 
                 button3.Click();
                 iAlert.Dismiss();
@@ -1061,41 +1056,42 @@ namespace InternetHerokuapp
         [TestMethod]
         public void NotificationMessage()
         {
-           using (WebDriverHelper webDriverHelper = new WebDriverHelper())
+            using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-                    IWebDriver webDriver = webDriverHelper.GetDriver();
-                    webDriver.Url = "http://the-internet.herokuapp.com/notification_message_rendered";
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/notification_message_rendered";
 
-                    IWebElement clickHereLink = webDriver.FindElement(By.LinkText("Click here"));
-                    clickHereLink.Click();
-                    
-                    for (int i = 0; i < 4; i++)
+                IWebElement clickHereLink = webDriver.FindElement(By.LinkText("Click here"));
+                clickHereLink.Click();
+
+                for (int i = 0; i < 4; i++)
+                {
+                    IWebElement msgNotification = webDriver.FindElement(By.Id("flash"));
+                    string msgActual = msgNotification.Text;
+
+                    if (msgActual.Contains("Action successful"))
                     {
-                        IWebElement msgNotification = webDriver.FindElement(By.Id("flash"));
-                        string msgActual = msgNotification.Text;
+                        Assert.IsTrue(msgActual.Contains("Action successful"));
+                    }
 
-                        if (msgActual.Contains("Action successful"))
-                        {
-                            Assert.IsTrue(msgActual.Contains("Action successful"));
-                        }
+                    else
+                    {
+                        Assert.IsTrue(msgActual.Contains("Action unsuccesful, please try again"));
+                    }
 
-                        else
-                        {
-                            Assert.IsTrue(msgActual.Contains("Action unsuccesful, please try again"));
-                        }
+                    WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
+                    webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("flash")));
 
-                        WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(4));
-                        webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("flash")));
-
-                        IWebElement clickHereLink1 = webDriver.FindElement(By.LinkText("Click here"));
-                        clickHereLink1.Click();
-                     }
-              }
+                    IWebElement clickHereLink1 = webDriver.FindElement(By.LinkText("Click here"));
+                    clickHereLink1.Click();
+                }
+            }
         }
 
         [TestMethod]
         public void StatusСodes()
         {
+            //http://elementalselenium.com/tips/17-retrieve-http-status-codes
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
@@ -1107,7 +1103,7 @@ namespace InternetHerokuapp
                 string convert200 = actualStatusCode200.ToString();
                 string href200 = "OK";
                 bool isHref200 = convert200.Equals(href200);
-        
+
                 webDriver.Url = "http://the-internet.herokuapp.com/status_codes/301";
                 RestClient restClient301 = new RestClient("http://the-internet.herokuapp.com/status_codes/301");
                 RestRequest restRequest301 = new RestRequest();
@@ -1142,8 +1138,6 @@ namespace InternetHerokuapp
                 Assert.IsTrue(isHref500);
             }
         }
-
-
 
         #region
         public bool IsDisplayed()
