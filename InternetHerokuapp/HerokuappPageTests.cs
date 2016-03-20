@@ -1094,32 +1094,52 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void StatusСodes() //??
+        public void StatusСodes()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
-                webDriver.Url = "http://the-internet.herokuapp.com/status_codes";
+                webDriver.Url = "http://the-internet.herokuapp.com/status_codes/200";
+                RestClient restClient200 = new RestClient("http://the-internet.herokuapp.com/status_codes/200");
+                RestRequest restRequest200 = new RestRequest();
+                IRestResponse response200 = restClient200.Execute(restRequest200);
+                HttpStatusCode actualStatusCode200 = response200.StatusCode;
+                string convert200 = actualStatusCode200.ToString();
+                string href200 = "OK";
+                bool isHref200 = convert200.Equals(href200);
+        
+                webDriver.Url = "http://the-internet.herokuapp.com/status_codes/301";
+                RestClient restClient301 = new RestClient("http://the-internet.herokuapp.com/status_codes/301");
+                RestRequest restRequest301 = new RestRequest();
+                IRestResponse response301 = restClient301.Execute(restRequest301);
+                HttpStatusCode actualStatusCode301 = response301.StatusCode;
+                string convert301 = actualStatusCode301.ToString();
+                string href301 = "MovedPermanently";
+                bool isHref301 = convert301.Equals(href301);
 
-                IWebElement link200 = webDriver.FindElement(By.LinkText("200"));
-                IWebElement link301 = webDriver.FindElement(By.LinkText("301"));
-                IWebElement link404 = webDriver.FindElement(By.LinkText("404"));
-                IWebElement link500 = webDriver.FindElement(By.LinkText("500"));
 
+                webDriver.Url = "http://the-internet.herokuapp.com/status_codes/404";
+                RestClient restClient404 = new RestClient("http://the-internet.herokuapp.com/status_codes/404");
+                RestRequest restRequest404 = new RestRequest();
+                IRestResponse response404 = restClient404.Execute(restRequest404);
+                HttpStatusCode actualStatusCode404 = response404.StatusCode;
+                string convert404 = actualStatusCode404.ToString();
+                string href404 = "NotFound";
+                bool isHref404 = convert404.Equals(href404);
 
-                link200.Click();
-                RestClient restClient = new RestClient("http://the-internet.herokuapp.com/status_codes/200");
+                webDriver.Url = "http://the-internet.herokuapp.com/status_codes/404";
+                RestClient restClient500 = new RestClient("http://the-internet.herokuapp.com/status_codes/500");
+                RestRequest restRequest500 = new RestRequest();
+                IRestResponse response500 = restClient500.Execute(restRequest500);
+                HttpStatusCode actualStatusCode500 = response500.StatusCode;
+                string convert500 = actualStatusCode500.ToString();
+                string href500 = "InternalServerError";
+                bool isHref500 = convert500.Equals(href500);
 
-                RestRequest restRequest = new RestRequest();
-               
-                IRestResponse response = restClient.Execute(restRequest);
-                HttpStatusCode actualStatusCode = response.StatusCode;
-                
-                //   r = requests.head(link.get_attribute('href')
-                //      print(r.status_code == 200)
-             
-              
-
+                Assert.IsTrue(isHref200);
+                Assert.IsTrue(isHref301);
+                Assert.IsTrue(isHref404);
+                Assert.IsTrue(isHref500);
             }
         }
 
