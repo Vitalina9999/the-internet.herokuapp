@@ -30,3 +30,4 @@ C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\WebDriver.Su
 C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\bin\Debug\System.Net.Http.Formatting.xml
 C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.dll
 C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.pdb
+C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\obj\Debug\InternetHerokuapp.csprojResolveAssemblyReference.cache

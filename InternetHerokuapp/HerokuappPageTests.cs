@@ -705,8 +705,7 @@ namespace InternetHerokuapp
                 IWebElement geoBtn = webDriver.FindElement(By.TagName("button"));
                 geoBtn.Click();
 
-                //// Crash 
-
+                // Crash 
                 IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
                 js.ExecuteScript("");
 
@@ -802,25 +801,25 @@ namespace InternetHerokuapp
                 actions.MoveToElement(enableMenu).Perform();
 
                 IWebElement downloadMenu = webDriver.FindElement(By.Id("ui-id-4"));
-                downloadMenu.Click();
-                // WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
-                // webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
 
+                WebDriverWait webDriverWait0 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-4")));
+
+                downloadMenu.Click();
                 actions.MoveToElement(downloadMenu).Perform();
 
                 IWebElement pdfMenu = webDriver.FindElement(By.Id("ui-id-6"));
 
                 ReadOnlyCollection<IWebElement> pageLinks = webDriver.FindElements(By.TagName("a"));
 
-                foreach (IWebElement pdfLink in pageLinks)
+                foreach (IWebElement fileLink in pageLinks)
                 {
-                    string hrefLink = pdfLink.GetAttribute("href");
-                    string linkPdf = "/download/jqueryui/menu/menu.pdf";
+                    string hrefLink = fileLink.GetAttribute("href");
+                    string linkDownload = "/download/jqueryui/menu/";
 
-
-                    if (hrefLink.Contains(linkPdf))
+                    if (hrefLink.Contains(linkDownload))
                     {
-                        // click on link
+                        webDriver.Navigate().GoToUrl(hrefLink);
 
                     }
 
@@ -829,9 +828,16 @@ namespace InternetHerokuapp
                         string elementNotAppears = "element NOT appears";
                     }
                 }
+                IWebElement elementJqueryinMenu = webDriver.FindElement(By.Id("ui-id-5"));
+                elementJqueryinMenu.Click();
 
+                IWebElement menuLink = webDriver.FindElement(By.LinkText("Menu"));
+                menuLink.Click();
+
+                WebDriverWait webDriverWait1 = new WebDriverWait(webDriver, TimeSpan.FromSeconds(5));
+                webDriverWait1.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("ui-id-2")));
             }
-        } //??
+        }
 
         [TestMethod]
         public void Javascript_alerts()
