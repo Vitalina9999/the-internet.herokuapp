@@ -111,11 +111,11 @@ namespace InternetHerokuapp
         [TestMethod]
         public void ChallengingDom()
         {
+            // http://testerslab.herokuapp.com/
+            //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-                // http://testerslab.herokuapp.com/
-                //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
-                webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/challenging_dom";
+               webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/challenging_dom";
 
                 DataGridView dataGrid;
                 ContextMenuStrip contextMenuStrip;
@@ -530,7 +530,7 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/forgot_password";
 
                 IWebElement emailTbx = webDriver.FindElement(By.Id("email"));
-                emailTbx.SendKeys("vitalinatest9999@gmail.com");   // add your email :)
+                emailTbx.SendKeys("");   // add your email :)
 
                 IWebElement submitBtn = webDriver.FindElement(By.TagName("button"));
                 submitBtn.Click();
@@ -545,7 +545,7 @@ namespace InternetHerokuapp
                 //webDriver.Url = "https://mail.google.com/mail/u/0/#inbox";
 
                 //IWebElement emailGmail = webDriver.FindElement(By.Id("Email"));
-                //emailGmail.SendKeys("vitalinatest9999@gmail.com");   // add your email :)
+                //emailGmail.SendKeys("");   // add your email :)
 
                 //IWebElement nextBtnGmail = webDriver.FindElement(By.Id("next"));
                 //nextBtnGmail.Click();
@@ -554,7 +554,7 @@ namespace InternetHerokuapp
                 //webDriverWait0.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.Id("Passwd")));
 
                 //IWebElement passwordGmail = webDriver.FindElement(By.Id("Passwd"));
-                //passwordGmail.SendKeys("q1w2e3r412345");     // add your pass :)
+                //passwordGmail.SendKeys("");     // add your pass :)
 
                 //IWebElement signIn = webDriver.FindElement(By.Id("signIn"));
                 //signIn.Click();
