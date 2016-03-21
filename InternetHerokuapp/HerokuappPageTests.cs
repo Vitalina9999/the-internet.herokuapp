@@ -737,25 +737,15 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void InfiniteScroll() //??
+        public void InfiniteScroll()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/infinite_scroll";
 
-                IList<IWebElement> infinityScrollList = webDriver.FindElements(By.TagName("a"));
-
-                Actions actions = new Actions(webDriver);
-
-
-                foreach (IWebElement infinityScroll in infinityScrollList)
-                {
-                    string href = infinityScroll.GetAttribute("href");
-
-
-                }
-
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+                js.ExecuteScript("window.scrollBy(0,document.body.scrollHeight)");
             }
         }
 
