@@ -131,7 +131,7 @@ namespace InternetHerokuapp
 
 
             }
-        }  //??
+        }   //Need fix
 
         [TestMethod]
         public void Checkboxes()
@@ -151,18 +151,13 @@ namespace InternetHerokuapp
 
                 bool isLastChecked = checkboxesInputs.Last().Selected;
                 Assert.IsTrue(isLastChecked);
-                //Assert.IsTrue(checkboxesInputs[1].Selected);   == dublicate, for example
-
-                //Close the browser
+                
             }
         }
 
         [TestMethod]
         public void ContextMenu() // only in FF
         {
-            //http://elementalselenium.com/tips/63-right-click
-            //http://stackoverflow.com/questions/11428026/select-an-option-from-the-right-click-menu-in-selenium-webdriver-java
-
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 //1.Open the browser and visit the page
@@ -181,7 +176,6 @@ namespace InternetHerokuapp
                 actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
                 actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
                 actions.SendKeys(OpenQA.Selenium.Keys.Enter);
-               
                 actions.Perform();
 
                 //4.JavaScript alert appears
@@ -191,6 +185,7 @@ namespace InternetHerokuapp
                 string alertTextExpected = alert.Text;
                 string alertTextActual = "You selected a context menu";
                 alert.Accept();
+
                 //6.Assert that the text from the alert is what we expect
                 Assert.AreEqual(alertTextExpected, alertTextActual);
 
@@ -275,7 +270,7 @@ namespace InternetHerokuapp
                 js.ExecuteScript("window.scrollBy(0,document.body.scrollHeight)");
 
             }
-        }     //??
+        }  //Need fix
 
         [TestMethod]
         public void DropdownList()
@@ -297,7 +292,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void DynamicContent()
+        public void DynamicContent() 
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -305,7 +300,7 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/dynamic_content";
 
             }
-        }  //??
+        }   //Need fix
 
         [TestMethod]
         public void DynamicControls()
@@ -490,7 +485,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FloatingMenu()   //??
+        public void FloatingMenu()   // need fix
         {
             //https://github.com/Kreisfahrer/SelenideTest/blob/master/src/test/java/FloatingMenuTest.java
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
