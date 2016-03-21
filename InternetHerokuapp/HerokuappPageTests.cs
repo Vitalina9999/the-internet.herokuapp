@@ -15,6 +15,7 @@ using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
@@ -111,14 +112,14 @@ namespace InternetHerokuapp
         [TestMethod]
         public void ChallengingDom()
         {
-          //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
+            //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
             //http://elementalselenium.com/tips/verifying-locators
             //http://www.ufthelp.com/2014/11/what-is-javascriptexecutor-in-selenium.html
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/challenging_dom";
-                
+
                 IWebElement btn1 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[1]"));
                 IWebElement btn2 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[2]"));
                 IWebElement btn3 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[3]"));
@@ -177,26 +178,25 @@ namespace InternetHerokuapp
                 actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
                 actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
                 actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
+                actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
+                actions.SendKeys(OpenQA.Selenium.Keys.ArrowDown);
                 actions.SendKeys(OpenQA.Selenium.Keys.Enter);
-                actions.SendKeys(OpenQA.Selenium.Keys.Enter);
-                // actions.Build();
+               
                 actions.Perform();
-
-                // Unexpected modal dialog (text: You selected a context menu) The alert disappeared before it could be closed.
-
 
                 //4.JavaScript alert appears
                 IAlert alert = driver.SwitchTo().Alert();
-
+               
                 //5.Grab the text of the JavaScript alert
                 string alertTextExpected = alert.Text;
                 string alertTextActual = "You selected a context menu";
-
+                alert.Accept();
                 //6.Assert that the text from the alert is what we expect
                 Assert.AreEqual(alertTextExpected, alertTextActual);
 
+                driver.Close();
             }
-        }   //??
+        }   
 
         [TestMethod]
         public void DisappearingElements()
@@ -247,19 +247,32 @@ namespace InternetHerokuapp
 
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/drag_and_drop";
 
-                webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/drag_and_drop";
-
-                Actions actions = new Actions(webDriverHelper.GetDriver());
-
+                Actions actions = new Actions(webDriver);
                 IWebElement source = webDriverHelper.GetDriver().FindElement(By.Id("column-a"));
                 IWebElement target = webDriverHelper.GetDriver().FindElement(By.Id("column-b"));
-
                 actions.DragAndDrop(source, target);
                 actions.Perform();
-
                 actions.Build();
                 actions.Perform();
+
+
+
+                Actions moveAndDrop = new Actions(webDriver);
+                moveAndDrop.ClickAndHold(source).Perform();
+                moveAndDrop.MoveToElement(target).Perform();
+                moveAndDrop.Release(target).Perform();
+
+
+                //String javascript = jsContent + "var dragElement = arguments[0], dropElement = arguments[1];";
+                //javascript = javascript + "jQuery(source).simulateDragDrop({ dropTarget: target});";
+                //((IJavaScriptExecutor)webDriver()).ExecuteScript(javascript, DragAction, dropElement);
+
+
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+                js.ExecuteScript("window.scrollBy(0,document.body.scrollHeight)");
 
             }
         }     //??
@@ -288,7 +301,8 @@ namespace InternetHerokuapp
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-                webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/dynamic_content";
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/dynamic_content";
 
             }
         }  //??
@@ -478,11 +492,10 @@ namespace InternetHerokuapp
         [TestMethod]
         public void FloatingMenu()   //??
         {
+            //https://github.com/Kreisfahrer/SelenideTest/blob/master/src/test/java/FloatingMenuTest.java
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-
                 IWebDriver webDriver = webDriverHelper.GetDriver();
-
                 webDriver.Url = "http://the-internet.herokuapp.com/floating_menu";
 
 
@@ -554,7 +567,7 @@ namespace InternetHerokuapp
                 //email_address = S("#email").web_element.text
                 #endregion
 
-                
+
             }
         }
 
@@ -670,6 +683,7 @@ namespace InternetHerokuapp
         {
             //http://www.softwaretestinghelp.com/handle-alerts-popups-selenium-webdriver-selenium-tutorial-16/
             //http://geolocate-me.com/faq
+            //http://stackoverflow.com/questions/33265701/protractor-allow-notifications-chrome-46
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
@@ -678,9 +692,20 @@ namespace InternetHerokuapp
                 IWebElement geoBtn = webDriver.FindElement(By.TagName("button"));
                 geoBtn.Click();
 
-                // Crash 
-                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
-                js.ExecuteScript("");
+
+                //ChromeOptions options = new ChromeOptions();
+                //Map<String, Object> prefs = new HashMap<String, Object>();
+                //prefs.put("profile.default_content_settings.geolocation", 2); // нужное значение
+                //options.setExperimentalOption("prefs", prefs);
+
+
+                // ChromeOptions options = new ChromeOptions();
+                // options.setExperimentalOption("prefs", new JSONObject().put("profile.default_content_settings.geolocation", 1));
+
+                Actions actions = new Actions(webDriver);
+                actions.SendKeys(OpenQA.Selenium.Keys.Tab);
+
+
 
                 IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
                 IWebElement geoLat = webDriver.FindElement(By.Id("long-value"));
@@ -688,7 +713,6 @@ namespace InternetHerokuapp
                 IWebElement googleLink = webDriver.FindElement(By.Id("map-link"));
                 string googleLinkActual = googleLink.Text;
                 string googleLinkExpected = "See it on Google";
-
 
                 Assert.IsTrue(googleLink.Displayed);
                 Assert.IsTrue(geoBtn.Displayed);
@@ -1105,6 +1129,9 @@ namespace InternetHerokuapp
                 Assert.IsTrue(isHref301);
                 Assert.IsTrue(isHref404);
                 Assert.IsTrue(isHref500);
+
+
+                //https://github.com/Kreisfahrer/SelenideTest
             }
         }
 
@@ -1127,10 +1154,9 @@ namespace InternetHerokuapp
             }
         }
 
-
         #endregion
 
-
+        //http://stackoverflow.com/questions/6709352/chrome-tabs-executescript-shows-unknown-error
         //https://stackoverflow.com/questions/31532534/identifying-number-of-iframes-in-a-page-using-selenium
         //http://www.ufthelp.com/2014/11/working-with-action-class-in-selenium.html
     }
