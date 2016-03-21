@@ -111,49 +111,23 @@ namespace InternetHerokuapp
         [TestMethod]
         public void ChallengingDom()
         {
-            // http://testerslab.herokuapp.com/
-            //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
+          //http://testerslab.herokuapp.com/testing-your-django-app-webtest/
+            //http://elementalselenium.com/tips/verifying-locators
+            //http://www.ufthelp.com/2014/11/what-is-javascriptexecutor-in-selenium.html
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
-               webDriverHelper.GetDriver().Url = "http://the-internet.herokuapp.com/challenging_dom";
+                IWebDriver webDriver = webDriverHelper.GetDriver();
+                webDriver.Url = "http://the-internet.herokuapp.com/challenging_dom";
+                
+                IWebElement btn1 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[1]"));
+                IWebElement btn2 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[2]"));
+                IWebElement btn3 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[3]"));
 
-                DataGridView dataGrid;
-                ContextMenuStrip contextMenuStrip;
+                string idBtn1 = btn1.GetAttribute("id");
+                string idBtn2 = btn2.GetAttribute("id");
+                string idBtn3 = btn3.GetAttribute("id");
 
-                //public Form1()
-                //{
-                //    InitializeComponent();
 
-                //    dataGrid = new DataGridView();
-                //    Controls.Add(dataGrid);
-                //    dataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-                //    //dataGrid.ColumnHeaderMouseClick += ColumnHeaderMouseClick;
-                //    dataGrid.MouseDown += MouseDown;
-                //    dataGrid.DataSource = new Dictionary<string, string>().ToList();
-
-                //    contextMenuStrip = new ContextMenuStrip();
-                //    contextMenuStrip.Items.Add("foo");
-                //    contextMenuStrip.Items.Add("bar");
-                //}
-
-                //private void ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-                //{
-                //    if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                //    {
-                //        contextMenuStrip.Show(PointToScreen(e.Location));
-                //    }
-                //}
-
-                //private void MouseDown(object sender, MouseEventArgs e)
-                //{
-                //    if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                //    {
-                //        if (dataGrid.HitTest(e.X, e.Y).Type == DataGridViewHitTestType.ColumnHeader)
-                //        {
-                //            contextMenuStrip.Show(dataGrid.PointToScreen(e.Location));
-                //        }
-                //    }
-                //}
 
             }
         }  //??
@@ -516,7 +490,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void ForgotPassword()  //??
+        public void ForgotPassword()  //need add your email and pass, still in development
         {
             //https://github.com/bugfree-software/the-internet-solution-python/blob/master/tests/test_forgot_password.py
             //http://elementalselenium.com/tips/43-forgot-password
@@ -580,8 +554,7 @@ namespace InternetHerokuapp
                 //email_address = S("#email").web_element.text
                 #endregion
 
-                //
-
+                
             }
         }
 
