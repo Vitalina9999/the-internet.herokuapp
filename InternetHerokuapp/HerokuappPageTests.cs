@@ -119,15 +119,32 @@ namespace InternetHerokuapp
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/challenging_dom";
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
 
                 IWebElement btn1 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[1]"));
+                //  string idBtn1 = btn1.GetAttribute("id");
+                js.ExecuteScript("arguments[0].style.border='2px groove green'", btn1);
+                btn1.Click();
+
                 IWebElement btn2 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[2]"));
+                //  string idBtn2 = btn2.GetAttribute("id");
+                js.ExecuteScript("arguments[0].style.border='2px groove green'", btn2);
+                btn2.Click();
+
                 IWebElement btn3 = webDriver.FindElement(By.XPath("//html/body/div[2]/div/div/div/div/div[1]/a[3]"));
+                //    string idBtn3 = btn3.GetAttribute("id");
+                js.ExecuteScript("arguments[0].style.border='2px groove green'", btn3);
+                btn3.Click();
 
-                string idBtn1 = btn1.GetAttribute("id");
-                string idBtn2 = btn2.GetAttribute("id");
-                string idBtn3 = btn3.GetAttribute("id");
+                IWebElement head = webDriver.FindElement(By.CssSelector("thead > tr"));
+                IList<IWebElement> headColumnsList = head.FindElements(By.TagName("th"));
 
+                IWebElement bodyStringsList = webDriver.FindElement(By.CssSelector("tbody > tr"));
+                IList<IWebElement> tdList = bodyStringsList.FindElements(By.TagName("td"));
+                foreach (IWebElement bodyString in tdList)
+                {
+                    js.ExecuteScript("arguments[0].style.border='2px groove green'", bodyString);
+                }
 
 
             }
@@ -151,7 +168,7 @@ namespace InternetHerokuapp
 
                 bool isLastChecked = checkboxesInputs.Last().Selected;
                 Assert.IsTrue(isLastChecked);
-                
+
             }
         }
 
@@ -180,7 +197,7 @@ namespace InternetHerokuapp
 
                 //4.JavaScript alert appears
                 IAlert alert = driver.SwitchTo().Alert();
-               
+
                 //5.Grab the text of the JavaScript alert
                 string alertTextExpected = alert.Text;
                 string alertTextActual = "You selected a context menu";
@@ -191,7 +208,7 @@ namespace InternetHerokuapp
 
                 driver.Close();
             }
-        }   
+        }
 
         [TestMethod]
         public void DisappearingElements()
@@ -239,6 +256,7 @@ namespace InternetHerokuapp
             //http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/ActionBuilder.html
             //http://elementalselenium.com/tips/39-drag-and-drop
             //https://gist.github.com/rcorreia/2362544
+            //http://www.seleniumeasy.com/selenium-tutorials/drag-and-drop-using-webdriver-action-class
 
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -253,8 +271,6 @@ namespace InternetHerokuapp
                 actions.Build();
                 actions.Perform();
 
-
-
                 Actions moveAndDrop = new Actions(webDriver);
                 moveAndDrop.ClickAndHold(source).Perform();
                 moveAndDrop.MoveToElement(target).Perform();
@@ -264,10 +280,6 @@ namespace InternetHerokuapp
                 //String javascript = jsContent + "var dragElement = arguments[0], dropElement = arguments[1];";
                 //javascript = javascript + "jQuery(source).simulateDragDrop({ dropTarget: target});";
                 //((IJavaScriptExecutor)webDriver()).ExecuteScript(javascript, DragAction, dropElement);
-
-
-                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
-                js.ExecuteScript("window.scrollBy(0,document.body.scrollHeight)");
 
             }
         }  //Need fix
@@ -292,7 +304,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void DynamicContent() 
+        public void DynamicContent()
         {
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -485,7 +497,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FloatingMenu()   // need fix
+        public void FloatingMenu() // need fix
         {
             //https://github.com/Kreisfahrer/SelenideTest/blob/master/src/test/java/FloatingMenuTest.java
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -1148,7 +1160,7 @@ namespace InternetHerokuapp
                 js.ExecuteScript("arguments[0].style.border=''", element);
             }
         }
-
+        
         #endregion
 
         //http://stackoverflow.com/questions/6709352/chrome-tabs-executescript-shows-unknown-error
