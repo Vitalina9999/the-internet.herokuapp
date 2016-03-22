@@ -505,6 +505,10 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/floating_menu";
 
+                IWebElement menuElement = webDriver.FindElement(By.Id("menu"));
+                IList<IWebElement> links = menuElement.FindElements(By.TagName("a"));
+
+                
 
             }
         }
