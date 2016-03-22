@@ -135,20 +135,20 @@ namespace InternetHerokuapp
                 //    string idBtn3 = btn3.GetAttribute("id");
                 js.ExecuteScript("arguments[0].style.border='2px groove green'", btn3);
                 btn3.Click();
-
+                
                 IWebElement head = webDriver.FindElement(By.CssSelector("thead > tr"));
                 IList<IWebElement> headColumnsList = head.FindElements(By.TagName("th"));
 
-                IWebElement bodyStringsList = webDriver.FindElement(By.CssSelector("tbody > tr"));
-                IList<IWebElement> tdList = bodyStringsList.FindElements(By.TagName("td"));
-                foreach (IWebElement bodyString in tdList)
+                //in process
+               // IList<IWebElement> stringList = webDriver.FindElements(By.CssSelector("tbody > tr"));
+
+                IList<IWebElement> tdList = webDriver.FindElements(By.TagName("td"));
+                foreach (IWebElement tr in tdList)
                 {
-                    js.ExecuteScript("arguments[0].style.border='2px groove green'", bodyString);
+                    js.ExecuteScript("arguments[0].style.border='2px groove green'", tr);
                 }
-
-
-            }
-        }   //Need fix
+             }
+        }  
 
         [TestMethod]
         public void Checkboxes()
@@ -1160,7 +1160,7 @@ namespace InternetHerokuapp
                 js.ExecuteScript("arguments[0].style.border=''", element);
             }
         }
-        
+
         #endregion
 
         //http://stackoverflow.com/questions/6709352/chrome-tabs-executescript-shows-unknown-error
