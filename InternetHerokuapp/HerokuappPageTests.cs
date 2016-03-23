@@ -311,8 +311,24 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/dynamic_content";
 
+                IWebElement content = webDriver.FindElement(By.Id("content"));
+                IList<IWebElement> rowsList = content.FindElements(By.ClassName("row"));
+
+                foreach (IWebElement rowElement in rowsList)
+                {
+                    IWebElement imgRow = rowElement.FindElement(By.ClassName("large-2"));
+                    IWebElement textRow = rowElement.FindElement(By.ClassName("large-10"));
+
+                    Assert.IsTrue(imgRow.Displayed);
+                    Assert.IsTrue(textRow.Displayed);
+                }
+
+                IWebElement staticContent = webDriver.FindElement(By.LinkText("click here"));
+                staticContent.Click();
+
+                // on staticcontent page the last element NOT static, and how to test I don't know
             }
-        }   //Need fix
+        }  
 
         [TestMethod]
         public void DynamicControls()
@@ -504,12 +520,14 @@ namespace InternetHerokuapp
             {
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/floating_menu";
-
+                IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
                 IWebElement menuElement = webDriver.FindElement(By.Id("menu"));
-                IList<IWebElement> links = menuElement.FindElements(By.TagName("a"));
-
-                
-
+                IList<IWebElement> tabLinks = menuElement.FindElements(By.TagName("a"));
+                foreach (IWebElement tab in tabLinks)
+                {
+                    js.ExecuteScript("arguments[0].style.border='2px groove green'", tab);
+                    tab.Click();
+                }
             }
         }
 
