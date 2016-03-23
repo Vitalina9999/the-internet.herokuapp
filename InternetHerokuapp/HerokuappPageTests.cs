@@ -264,21 +264,53 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/drag_and_drop";
 
+                //C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\
+                //https://gist.github.com/ederign/f7662e1e3cc558c698ac
+                //https://github.com/tourdedave/the-internet/blob/master/views/drag_and_drop.erb
+
                 Actions actions = new Actions(webDriver);
                 IWebElement source = webDriverHelper.GetDriver().FindElement(By.Id("column-a"));
                 IWebElement target = webDriverHelper.GetDriver().FindElement(By.Id("column-b"));
+
+                string sourceText = source.Text;
+                string targetText = target.Text;
+
+                Point targetLocation = target.Location;
+
+
+                //  ((IJavaScriptExecutor)webDriver).ExecuteScript(File.ReadAllBytes(@"C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\jquery-2.2.1.min.js").ToString());
+                //   ((IJavaScriptExecutor)webDriver).ExecuteScript(File.ReadAllBytes(@"C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\drag_and_drop_helper.js").ToString());
+                //  String dnd11 = "$('#column-a').simulateDragDrop({ dropTarget: '#column-b'});";
+                //  ((IJavaScriptExecutor)webDriver).ExecuteScript(dnd11);
+
+                actions.ClickAndHold(source);
                 actions.DragAndDrop(source, target);
-                actions.Perform();
                 actions.Build();
                 actions.Perform();
 
+
+                actions.DragAndDropToOffset(source, 247, 88);
+
+                
                 Actions moveAndDrop = new Actions(webDriver);
                 moveAndDrop.ClickAndHold(source).Perform();
                 moveAndDrop.MoveToElement(target).Perform();
                 moveAndDrop.Release(target).Perform();
 
 
-                //String javascript = jsContent + "var dragElement = arguments[0], dropElement = arguments[1];";
+
+                string js =
+                    File.ReadAllText(
+                        @"C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\drag_and_drop_helper.js");
+               String dnd = "source.simulateDragDrop({ dropTarget: target});";
+
+                ((IJavaScriptExecutor)webDriver).ExecuteScript(js, dnd);
+
+                //  FileInfo file = new FileInfo(filePath);
+
+
+
+                //String javascript = jsContent + "var dragElement = arguments[0], dropElement = arguments[1];"
                 //javascript = javascript + "jQuery(source).simulateDragDrop({ dropTarget: target});";
                 //((IJavaScriptExecutor)webDriver()).ExecuteScript(javascript, DragAction, dropElement);
 
@@ -516,6 +548,7 @@ namespace InternetHerokuapp
         [TestMethod]
         public void FloatingMenu()
         {
+            // honestly I don't know what to do there
             //https://github.com/Kreisfahrer/SelenideTest/blob/master/src/test/java/FloatingMenuTest.java
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
             {
@@ -524,7 +557,7 @@ namespace InternetHerokuapp
                 IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
                 IWebElement menuElement = webDriver.FindElement(By.Id("menu"));
                 Point menuLocation = menuElement.Location;
-                
+
                 IList<IWebElement> tabLinks = menuElement.FindElements(By.TagName("a"));
                 foreach (IWebElement tab in tabLinks)
                 {
@@ -743,8 +776,6 @@ namespace InternetHerokuapp
 
                 Actions actions = new Actions(webDriver);
                 actions.SendKeys(OpenQA.Selenium.Keys.Tab);
-
-
 
                 IWebElement geoAtt = webDriver.FindElement(By.Id("lat-value"));
                 IWebElement geoLat = webDriver.FindElement(By.Id("long-value"));
