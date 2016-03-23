@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Html5;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.Extensions;
@@ -135,20 +136,20 @@ namespace InternetHerokuapp
                 //    string idBtn3 = btn3.GetAttribute("id");
                 js.ExecuteScript("arguments[0].style.border='2px groove green'", btn3);
                 btn3.Click();
-                
+
                 IWebElement head = webDriver.FindElement(By.CssSelector("thead > tr"));
                 IList<IWebElement> headColumnsList = head.FindElements(By.TagName("th"));
 
                 //in process
-               // IList<IWebElement> stringList = webDriver.FindElements(By.CssSelector("tbody > tr"));
+                // IList<IWebElement> stringList = webDriver.FindElements(By.CssSelector("tbody > tr"));
 
                 IList<IWebElement> tdList = webDriver.FindElements(By.TagName("td"));
                 foreach (IWebElement tr in tdList)
                 {
                     js.ExecuteScript("arguments[0].style.border='2px groove green'", tr);
                 }
-             }
-        }  
+            }
+        }
 
         [TestMethod]
         public void Checkboxes()
@@ -328,7 +329,7 @@ namespace InternetHerokuapp
 
                 // on staticcontent page the last element NOT static, and how to test I don't know
             }
-        }  
+        }
 
         [TestMethod]
         public void DynamicControls()
@@ -513,7 +514,7 @@ namespace InternetHerokuapp
         }
 
         [TestMethod]
-        public void FloatingMenu() // need fix
+        public void FloatingMenu()
         {
             //https://github.com/Kreisfahrer/SelenideTest/blob/master/src/test/java/FloatingMenuTest.java
             using (WebDriverHelper webDriverHelper = new WebDriverHelper())
@@ -522,11 +523,20 @@ namespace InternetHerokuapp
                 webDriver.Url = "http://the-internet.herokuapp.com/floating_menu";
                 IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
                 IWebElement menuElement = webDriver.FindElement(By.Id("menu"));
+                Point menuLocation = menuElement.Location;
+                
                 IList<IWebElement> tabLinks = menuElement.FindElements(By.TagName("a"));
                 foreach (IWebElement tab in tabLinks)
                 {
                     js.ExecuteScript("arguments[0].style.border='2px groove green'", tab);
                     tab.Click();
+
+                    IWebElement pElement = webDriver.FindElement(By.TagName("p"));
+                    js.ExecuteScript("window.scrollBy(0,document.body.scrollHeight)");
+
+                    Assert.AreNotSame(menuElement.Location, menuLocation);
+                    menuLocation = menuElement.Location;
+                    Assert.IsTrue(menuElement.Displayed);
                 }
             }
         }
