@@ -264,7 +264,7 @@ namespace InternetHerokuapp
                 IWebDriver webDriver = webDriverHelper.GetDriver();
                 webDriver.Url = "http://the-internet.herokuapp.com/drag_and_drop";
 
-                //C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\
+
                 //https://gist.github.com/ederign/f7662e1e3cc558c698ac
                 //https://github.com/tourdedave/the-internet/blob/master/views/drag_and_drop.erb
 
@@ -290,32 +290,17 @@ namespace InternetHerokuapp
 
 
                 actions.DragAndDropToOffset(source, 247, 88);
-
                 
                 Actions moveAndDrop = new Actions(webDriver);
                 moveAndDrop.ClickAndHold(source).Perform();
                 moveAndDrop.MoveToElement(target).Perform();
                 moveAndDrop.Release(target).Perform();
+                
 
-
-
-                string js =
-                    File.ReadAllText(
-                        @"C:\Files\Projects\InternetHerokuapp_git\InternetHerokuapp\Scripts\drag_and_drop_helper.js");
-               String dnd = "source.simulateDragDrop({ dropTarget: target});";
-
-                ((IJavaScriptExecutor)webDriver).ExecuteScript(js, dnd);
-
-                //  FileInfo file = new FileInfo(filePath);
-
-
-
-                //String javascript = jsContent + "var dragElement = arguments[0], dropElement = arguments[1];"
-                //javascript = javascript + "jQuery(source).simulateDragDrop({ dropTarget: target});";
-                //((IJavaScriptExecutor)webDriver()).ExecuteScript(javascript, DragAction, dropElement);
-
+              
             }
         }  //Need fix
+        
 
         [TestMethod]
         public void DropdownList()
